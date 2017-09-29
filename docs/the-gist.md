@@ -22,7 +22,7 @@ app.use('/my-new-route', async(ctx, next) => {
     }
   }
 
-  // 4. SEO stuffs
+  // 4. SEO stuff
   ctx.state.metadata = {
     title: 'My first route',
     links: [
@@ -40,9 +40,9 @@ app.use('/my-new-route', async(ctx, next) => {
 })
 ```
 
-No need to catch for error (unless for specfic use). The renderer automatically try/catch controllers and take care of 404s too.
+No need to catch for error (unless for specific use). The renderer will automatically try/catch controllers and take care of 404s too.
 
-At the end, each props passed through the server state will become props in the component.
+In the end, each of the props passed through the server state will become the initial props rendered in the component.
 
 ```jsx
 export class MyReactComponent extends React.Component {
@@ -50,10 +50,9 @@ export class MyReactComponent extends React.Component {
     return (
       <div>
         <p>Some data: {this.props.data}</p>
-        <p>Others props: {this.props.otherProp}</p>
+        <p>Other props: {this.props.otherProp}</p>
       </div>
     )
   }
 }
 ```
-
