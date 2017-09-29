@@ -80,16 +80,14 @@
                 <div class="highlight"><pre><span class="hljs-keyword">import</span> React <span class="hljs-keyword">from</span> <span class="hljs-string">'react'</span>
 <span class="hljs-keyword">import</span> { connect } <span class="hljs-keyword">from</span> <span class="hljs-string">'react-redux'</span>
 
-<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">LoadingBar</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">React</span>.<span class="hljs-title">Component</span> </span>{
-  render () {
-    <span class="hljs-keyword">const</span> { active, alt } = <span class="hljs-keyword">this</span>.props
-    <span class="hljs-keyword">const</span> alternate = (alt &amp;&amp; <span class="hljs-string">'alt'</span>) || <span class="hljs-string">''</span>
-    <span class="hljs-keyword">return</span> (
-      <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">className</span>=<span class="hljs-string">{[</span>'<span class="hljs-attr">loading-bar</span>', <span class="hljs-attr">alternate</span>]<span class="hljs-attr">.join</span>(' ')}&gt;</span>
-        { active &amp;&amp; <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">className</span>=<span class="hljs-string">"loader"</span> /&gt;</span>}
-      <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
-    )
-  }
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">LoadingBar</span> (<span class="hljs-params">props</span>) </span>{
+  <span class="hljs-keyword">const</span> { active, alt } = props
+  <span class="hljs-keyword">const</span> alternate = (alt &amp;&amp; <span class="hljs-string">'alt'</span>) || <span class="hljs-string">''</span>
+  <span class="hljs-keyword">return</span> (
+    <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">className</span>=<span class="hljs-string">{[</span>'<span class="hljs-attr">loading-bar</span>', <span class="hljs-attr">alternate</span>]<span class="hljs-attr">.join</span>(' ')}&gt;</span>
+      { active &amp;&amp; <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">className</span>=<span class="hljs-string">"loader"</span> /&gt;</span>}
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+  )
 }
 
 export default connect(
