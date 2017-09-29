@@ -1,0 +1,20 @@
+
+a {
+  color: $blue;
+}
+
+blockquote, pre {
+  font-size: 1.4em;
+  border-left: 0.3rem solid $primary-alt;
+}
+
+pre {
+  font-family: 'Roboto Mono', monospace;
+
+  .hljs-keyword {
+    color: $black;
+  }
+  .hljs-string {
+    color: $blue;
+  }
+}

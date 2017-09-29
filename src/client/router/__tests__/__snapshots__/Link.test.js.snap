@@ -1,0 +1,81 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Link renders a link with active class if queries match 1`] = `
+<a
+  className="active"
+  href="/test?a=1&b=2"
+  onClick={[Function]}
+>
+  Test
+</a>
+`;
+
+exports[`Link renders a link with active class if queries match 2`] = `
+<a
+  className="active"
+  href="/test?a=1&b=3"
+  onClick={[Function]}
+>
+  Test
+</a>
+`;
+
+exports[`Link renders a link with active class if route exact 1`] = `
+<a
+  className="active"
+  href="/test"
+  onClick={[Function]}
+>
+  Test
+</a>
+`;
+
+exports[`Link renders a link with active class if route match 1`] = `
+<a
+  className="active"
+  href="/test"
+  onClick={[Function]}
+>
+  Test
+</a>
+`;
+
+exports[`Link renders a link without active class 1`] = `
+<a
+  className=""
+  href="/test"
+  onClick={[Function]}
+>
+  Test
+</a>
+`;
+
+exports[`Link renders a link without active class even if route match 1`] = `
+<a
+  className=""
+  href="/test"
+  onClick={[Function]}
+>
+  Test
+</a>
+`;
+
+exports[`Link renders a link without active class if queries not match 1`] = `
+<a
+  className=""
+  href="/test?a=1&b=3"
+  onClick={[Function]}
+>
+  Test
+</a>
+`;
+
+exports[`Link renders a link without active class if route match 1`] = `
+<a
+  className=""
+  href="/test/other"
+  onClick={[Function]}
+>
+  Test
+</a>
+`;

@@ -1,0 +1,44 @@
+
+$nav-width: 20rem;
+
+.section-docs {
+  // font-size: .8em;
+}
+
+.section-docs nav.menu {
+  position: fixed;
+  width: $nav-width;
+  background: $grey-blue-alt;
+  border-right: 1px solid $grey-blue-alt-2;
+  height: 100vh;
+
+  ul {
+    @extend .no-list-style;
+  }
+
+  li { 
+    margin: 0;
+  }
+
+  li > a {
+    display: block;
+    color: $blue;
+    font-weight: 500;
+    padding: 10px 15px 10px 25px;
+  }
+
+  li > hr {
+    margin: 0;
+    border-top: 0.1rem solid $grey-blue-alt-2;
+  }
+
+  li > a.active,
+  li > a:hover {
+    background: $grey-blue;
+  }
+}
+
+.section-docs section.content {
+  margin-left: $nav-width;
+  padding: 1em 2em;
+}

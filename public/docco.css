@@ -1,0 +1,83 @@
+
+@import url('https://fonts.googleapis.com/css?family=Roboto|Roboto+Mono:400,700');
+
+.markdown-body {
+  font-family: 'Roboto', Helvetica, sans-serif;
+}
+
+.annotation {
+  width: 40%;
+}
+
+.content,
+ul.sectionDetails:before {
+  width: 60%;
+  background: #f4f5f6;
+}
+
+ul.sectionDetails  {
+  font-size: .9em;
+  margin-bottom: 0;
+}
+
+.markdown-body > :first-child {
+  margin-bottom: 0;
+}
+.markdown-body pre {
+  font-family: 'Roboto Mono', monospace;
+  background: #f4f5f6;
+  padding-top: 0;
+}
+
+.markdown-body pre .hljs-keyword {
+  color: #3391C9;
+}
+.markdown-body pre .hljs-string{
+  color: #3391C9;
+}
+.markdown-body pre .hljs-title {
+  color: #555;
+}
+.markdown-body ul {
+  padding: 0;
+}
+body > nav.navigationTree {
+  padding: 0;
+  background: #F4F8FA;
+  border-right: 1px solid #DADFE5;
+}
+
+#jsTreeSearch {
+  border-bottom: 1px solid #DADFE5;
+  outline: none;
+}
+.jstree-default-dark {
+  font-size: .8em;
+  background: #F4F8FA;
+}
+.jstree-default-dark>.jstree-container-ul>.jstree-node,
+.jstree .jstree-open>.jstree-children {
+  background: #F4F8FA;
+}
+.jstree-default-dark .jstree-anchor {
+  text-shadow: none;
+}
+.jstree-default-dark a.jstree-search,
+.jstree-default-dark .jstree-hovered {
+  background: none;
+  box-shadow: none;
+  color: #555;
+}
+.jstree-default-dark .jstree-clicked {
+  background: none;
+  box-shadow: none;
+  color: #555;
+  text-decoration: underline;
+}
+
+.navigatorToggle {
+  border-radius: 0;
+  font-size: 1em;
+  color: #fff;
+  background: #a3aab5;
+}

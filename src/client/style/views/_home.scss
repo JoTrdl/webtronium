@@ -1,0 +1,44 @@
+
+$gradient-color-default: rgba(44, 62, 80, 0.25);
+$gradient-color-start: rgba(52, 152, 219, 0.5);
+$gradient-color-end: rgba(44, 62, 80, 0.5);
+
+.home .hero {
+  overflow: hidden;
+  background-color: #1A3A54;
+  background-size: cover;
+  background-image: url(/img/hero.jpg);
+  background-position: top;
+  height: 100vh;
+  margin-top: -$header-height;
+}
+
+.home .content {
+  justify-content: left;
+  color: $white;
+  height: 100%;
+  background: $gradient-color-default;
+  background: -webkit-linear-gradient(to right, $gradient-color-start, $gradient-color-end);
+  background: linear-gradient(to right, $gradient-color-start, $gradient-color-end);
+
+  .wrapper {
+    margin: -6em 0 0 10%;
+  }
+
+  p {
+    font-size: 2rem;
+  }
+
+  h1 {
+    font-family: 'Lato', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+    font-size: 6rem;
+    text-transform: uppercase;
+    max-width: 8em;
+    line-height: 1.3em;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.25);
+    strong {
+      font-size: 8rem;
+      font-weight: 300;
+    }
+  }
+}

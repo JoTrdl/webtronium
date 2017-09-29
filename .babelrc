@@ -1,0 +1,41 @@
+{
+  "env": {
+    "webpack": {
+      "presets": [
+        ["env", { "targets": { "browsers": "last 2 versions"} }]
+      ],
+      "plugins": [
+        "transform-react-jsx",
+        "transform-object-rest-spread",
+        "transform-class-properties",
+        "syntax-dynamic-import",
+        ["transform-runtime", {
+          "helpers": false,
+          "polyfill": false,
+          "regenerator": true,
+          "moduleName": "babel-runtime"
+        }]
+      ]
+    },
+    "node": {
+      "presets": [
+        ["env", { "targets": { "node": "8"} }]
+      ],
+      "plugins": [
+        "transform-react-jsx",
+        "transform-object-rest-spread",
+        "transform-class-properties",
+        "syntax-dynamic-import"
+      ]
+    },
+    "test": {
+      "presets": ["env", "react"],
+      "plugins": [
+        "transform-react-jsx",
+        "transform-object-rest-spread",
+        "transform-class-properties",
+        "syntax-dynamic-import"
+      ]
+    }
+  }
+}
