@@ -11,6 +11,10 @@ class Counter extends React.Component {
     this.increment = this.increment.bind(this)
   }
 
+  componentWillReceiveProps (nextProps) {
+    this.setState({value: nextProps.value || 0})
+  }
+
   increment () {
     this.setState({value: this.state.value + 1})
   }
