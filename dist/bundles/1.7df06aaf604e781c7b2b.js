@@ -1,1 +1,0 @@
-webpackJsonp([1],{30:function(e,t,n){"use strict";function a(e){return c.default.createElement("section",{className:"container mg-top-2 center"},c.default.createElement("h1",{className:"mg-top-2"},"This page is not found!"))}Object.defineProperty(t,"__esModule",{value:!0}),t.default=a;var u=n(0),c=function(e){return e&&e.__esModule?e:{default:e}}(u)}});
