@@ -2,7 +2,12 @@
   "env": {
     "webpack": {
       "presets": [
-        ["env", { "targets": { "browsers": "last 2 versions"} }]
+        ["env", {
+          "targets": {
+            "browsers": "last 2 versions"
+          },
+          "modules": false
+        }]
       ],
       "plugins": [
         "transform-react-jsx",

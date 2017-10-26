@@ -89,49 +89,8 @@
 
             </div><div class="content">
                 <div class="highlight"><pre><span class="hljs-keyword">if</span> (config.get(<span class="hljs-string">'env'</span>) === <span class="hljs-string">'development'</span>) {
-  <span class="hljs-built_in">require</span>(<span class="hljs-string">'babel-register'</span>)</pre></div>
-            </div>
-        </li>
-        
-        
-        <li id="section-3">
-            <div class="annotation">
-                <p> It is a bit hackish: every jsx file imported
- on the server are watched.
- If the file change, the process is exited with
- an error.
- In dev mode, there is forever + nodemon. So,
- if we exit the process, forever will start a
- new nodemon process…
- All of this to have a jsx component up to date
- on the server and avoid a React warning in the
- browser console: ‘server rendered not matching…’</p>
-
-            </div><div class="content">
-                
-            </div>
-        </li>
-        
-        
-        <li id="section-4">
-            <div class="annotation">
-                <p> was bored of the restart every time a client file is
- touched and finally decided to live with the warning…</p>
-
-            </div><div class="content">
-                <div class="highlight"><pre>  <span class="hljs-comment">/*
-  const fs = require('fs')
-  const babel = require('babel-core')
-  const watched = {}
-
-  require.extensions['.jsx'] = (module, filename) =&gt; { // eslint-disable-line node/no-deprecated-api
-    const {code} = babel.transformFileSync(filename)
-    module._compile(code, filename)
-
-    !watched[filename] &amp;&amp; fs.watchFile(filename, () =&gt; process.exit(1))
-    watched[filename] = true
-  }
-  */</span>
+  <span class="hljs-built_in">require</span>(<span class="hljs-string">'babel-register'</span>)
+  <span class="hljs-built_in">require</span>(<span class="hljs-string">'node-hot'</span>)
 }
 
 <span class="hljs-built_in">require</span>(<span class="hljs-string">'./server'</span>)</pre></div>

@@ -2,6 +2,14 @@
 const isBrowser = typeof window !== 'undefined'
 
 /**
+ * Call fn next tick in the calls stack
+ * @param {*} fn
+ */
+const nextTick = (fn) => {
+  setTimeout(() => fn(), 0)
+}
+
+/**
  * More precise Time.now() if available
  */
 const Time = isBrowser && window.performance && window.performance.now
@@ -14,9 +22,9 @@ const Time = isBrowser && window.performance && window.performance.now
 const scrollPosition = (position) => {
   if (typeof position !== 'undefined') {
     const p = position || { x: 0, y: 0 }
-    setTimeout(() => {
+    nextTick(() => {
       // wait a tick to be sure that browser
-      // got time to render
+      // got the time to render
       window.scrollTo(p.x, p.y)
     })
 
@@ -41,4 +49,10 @@ const sendPageviewEvent = (path) => {
   }
 }
 
-export { isBrowser, Time, scrollPosition, sendPageviewEvent }
+export {
+  isBrowser,
+  nextTick,
+  Time,
+  scrollPosition,
+  sendPageviewEvent
+}

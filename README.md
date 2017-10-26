@@ -1,7 +1,7 @@
 # Pure Server Router
 
 ## Live demo
-Got to [https://pure-server-router.herokuapp.com](https://pure-server-router.herokuapp.com) to see it live.
+Go to [https://pure-server-router.herokuapp.com](https://pure-server-router.herokuapp.com) to see it live.
 
 ## Setup
 

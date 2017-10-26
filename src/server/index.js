@@ -45,3 +45,13 @@ const server = app.listen(
     const { address, port } = server.address()
     console.log(`App running at http://${address}:${port}`)
   })
+
+// Hot reload support:
+// just stop the current server
+if (module.hot) {
+  module.hot.accept()
+
+  module.hot.store(() => {
+    server.close()
+  })
+}

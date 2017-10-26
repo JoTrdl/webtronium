@@ -81,6 +81,14 @@
 <span class="hljs-keyword">const</span> isBrowser = <span class="hljs-keyword">typeof</span> <span class="hljs-built_in">window</span> !== <span class="hljs-string">'undefined'</span>
 
 <span class="hljs-comment">/**
+ * Call fn next tick in the calls stack
+ * @param {*} fn
+ */</span>
+<span class="hljs-keyword">const</span> nextTick = <span class="hljs-function">(<span class="hljs-params">fn</span>) =&gt;</span> {
+  setTimeout(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> fn())
+}
+
+<span class="hljs-comment">/**
  * More precise Time.now() if available
  */</span>
 <span class="hljs-keyword">const</span> Time = isBrowser &amp;&amp; <span class="hljs-built_in">window</span>.performance &amp;&amp; <span class="hljs-built_in">window</span>.performance.now
@@ -93,7 +101,7 @@
 <span class="hljs-keyword">const</span> scrollPosition = <span class="hljs-function">(<span class="hljs-params">position</span>) =&gt;</span> {
   <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> position !== <span class="hljs-string">'undefined'</span>) {
     <span class="hljs-keyword">const</span> p = position || { <span class="hljs-attr">x</span>: <span class="hljs-number">0</span>, <span class="hljs-attr">y</span>: <span class="hljs-number">0</span> }
-    setTimeout(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {</pre></div>
+    nextTick(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {</pre></div>
             </div>
         </li>
         
@@ -128,7 +136,13 @@
   }
 }
 
-<span class="hljs-keyword">export</span> { isBrowser, Time, scrollPosition, sendPageviewEvent }</pre></div>
+<span class="hljs-keyword">export</span> {
+  isBrowser,
+  nextTick,
+  Time,
+  scrollPosition,
+  sendPageviewEvent
+}</pre></div>
             </div>
         </li>
         

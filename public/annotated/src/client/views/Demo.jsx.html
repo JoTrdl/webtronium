@@ -90,6 +90,10 @@
     <span class="hljs-keyword">this</span>.increment = <span class="hljs-keyword">this</span>.increment.bind(<span class="hljs-keyword">this</span>)
   }
 
+  componentWillReceiveProps (nextProps) {
+    <span class="hljs-keyword">this</span>.setState({<span class="hljs-attr">value</span>: nextProps.value || <span class="hljs-number">0</span>})
+  }
+
   increment () {
     <span class="hljs-keyword">this</span>.setState({<span class="hljs-attr">value</span>: <span class="hljs-keyword">this</span>.state.value + <span class="hljs-number">1</span>})
   }
