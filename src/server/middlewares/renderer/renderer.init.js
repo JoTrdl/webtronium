@@ -9,8 +9,8 @@ export default function () {
   // For this, it is important to use the 
   // ctx.state entry.
   return function init (ctx, next) {
-    // Default status to not found
-    ctx.status = 404
+    // Default status to unimplemented
+    ctx.status = 501
 
     // Default no-cache and cache config in ctx.
     // NOTE: the config is not in ctx.state because

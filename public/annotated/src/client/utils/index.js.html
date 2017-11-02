@@ -85,7 +85,7 @@
  * @param {*} fn
  */</span>
 <span class="hljs-keyword">const</span> nextTick = <span class="hljs-function">(<span class="hljs-params">fn</span>) =&gt;</span> {
-  setTimeout(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> fn())
+  setTimeout(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> fn(), <span class="hljs-number">0</span>)
 }
 
 <span class="hljs-comment">/**
@@ -109,7 +109,7 @@
         <li id="section-2">
             <div class="annotation">
                 <p> wait a tick to be sure that browser
- got time to render</p>
+ got the time to render</p>
 
             </div><div class="content">
                 <div class="highlight"><pre>      <span class="hljs-built_in">window</span>.scrollTo(p.x, p.y)

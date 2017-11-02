@@ -19,7 +19,6 @@ describe('Renderer', () => {
     const router = Router()
 
     router.get('/ok', ctx => {
-      ctx.body = 'response_body_ok'
       ctx.status = 200
     })
 
@@ -28,14 +27,12 @@ describe('Renderer', () => {
     })
 
     router.get('/skip', ctx => {
-      ctx.noRender = true
       ctx.status = 200
       ctx.body = 'Renderer skipped'
     })
 
     router.get('/cache', ctx => {
       ctx.status = 200
-      ctx.body = 'response_body_ok'
       ctx.cache.control = 'public'
       ctx.cache.maxAge = '1234'
 
@@ -93,7 +90,7 @@ describe('Renderer', () => {
       expect(response.headers.vary).toBe('Content-Type')
     }))
 
-  it('should skip the rendering if asked', () =>
+  it('should skip the rendering if body already defined', () =>
     request({
       url: `${TEST_SERVER_URL}/skip`
     }).then(response => {

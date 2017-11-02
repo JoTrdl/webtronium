@@ -22,9 +22,15 @@ export default function () {
       ctx.error = e
     }
 
-    // If the controller set to not handle
-    // the request (and got no error)
-    if (!ctx.error && ctx.noRender) {
+    // Auto set 200 if a route is matched and
+    // the status has not been set
+    if (ctx._matchedRoute && ctx.status === 501) {
+      ctx.status = 200
+    }
+
+    // If the controller already set the body
+    // (and got no error): no render to perform
+    if (!ctx.error && ctx.body) {
       return
     }
 
@@ -37,6 +43,7 @@ export default function () {
           await render(ctx)
           break
         case 404:
+        case 501:
         default:
           await renderNotFound(ctx)
           break

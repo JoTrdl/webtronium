@@ -84,6 +84,8 @@
 
 <span class="hljs-keyword">import</span> config <span class="hljs-keyword">from</span> <span class="hljs-string">'../../../../config'</span>
 <span class="hljs-keyword">import</span> HtmlDocument <span class="hljs-keyword">from</span> <span class="hljs-string">'../../templates/HtmlDocument'</span>
+<span class="hljs-keyword">import</span> NotFound <span class="hljs-keyword">from</span> <span class="hljs-string">'../../../client/views/NotFound'</span>
+<span class="hljs-keyword">import</span> ServerError <span class="hljs-keyword">from</span> <span class="hljs-string">'../../../client/views/ServerError'</span>
 
 <span class="hljs-keyword">const</span> appId = config.get(<span class="hljs-string">'appId'</span>)
 <span class="hljs-keyword">const</span> cacheConfig = config.get(<span class="hljs-string">'server.cache'</span>)
@@ -242,9 +244,10 @@
  * @param {any} ctx
  */
 export function renderNotFound (ctx) {
+  ctx.status = 404 // force a 404 status
   ctx.state.metadata.title = 'Not Found'
   ctx.state.metadata.metas.push({ name: 'description', content: 'Page not found' })
-  ctx.state.view.component = require('../../../client/views/NotFound').default
+  ctx.state.view.component = NotFound
 
   render(ctx)
 }
@@ -258,7 +261,7 @@ export function renderServerError (ctx) {
   ctx.state.metadata.title = 'Server Error'
   ctx.state.metadata.metas.push({ name: 'description', content: 'Server Error' })
 
-  ctx.state.view.component = require('../../../client/views/ServerError').default
+  ctx.state.view.component = ServerError
   ctx.state.view.props = {
     title: ctx.error.message,
     stack: ctx.error.stack

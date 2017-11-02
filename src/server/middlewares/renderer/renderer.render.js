@@ -5,6 +5,8 @@ import { cloneDeep } from 'lodash'
 
 import config from '../../../../config'
 import HtmlDocument from '../../templates/HtmlDocument'
+import NotFound from '../../../client/views/NotFound'
+import ServerError from '../../../client/views/ServerError'
 
 const appId = config.get('appId')
 const cacheConfig = config.get('server.cache')
@@ -98,9 +100,10 @@ export function render (ctx) {
  * @param {any} ctx
  */
 export function renderNotFound (ctx) {
+  ctx.status = 404 // force a 404 status
   ctx.state.metadata.title = 'Not Found'
   ctx.state.metadata.metas.push({ name: 'description', content: 'Page not found' })
-  ctx.state.view.component = require('../../../client/views/NotFound').default
+  ctx.state.view.component = NotFound
 
   render(ctx)
 }
@@ -114,7 +117,7 @@ export function renderServerError (ctx) {
   ctx.state.metadata.title = 'Server Error'
   ctx.state.metadata.metas.push({ name: 'description', content: 'Server Error' })
 
-  ctx.state.view.component = require('../../../client/views/ServerError').default
+  ctx.state.view.component = ServerError
   ctx.state.view.props = {
     title: ctx.error.message,
     stack: ctx.error.stack

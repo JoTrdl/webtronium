@@ -81,13 +81,11 @@
 <span class="hljs-keyword">import</span> DemoComponent <span class="hljs-keyword">from</span> <span class="hljs-string">'../../client/views/Demo'</span>
 
 <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">index</span> (<span class="hljs-params">ctx</span>) </span>{
-  ctx.status = <span class="hljs-number">200</span>
   ctx.cache.control = <span class="hljs-string">'public'</span>
   ctx.state.view.component = DemoComponent
 }
 
 <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">counter</span> (<span class="hljs-params">ctx</span>) </span>{
-  ctx.status = <span class="hljs-number">200</span>
   ctx.cache.control = <span class="hljs-string">'public'</span>
   ctx.state.view.component = DemoComponent
   ctx.state.view.props = {

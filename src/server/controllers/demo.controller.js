@@ -2,13 +2,11 @@
 import DemoComponent from '../../client/views/Demo'
 
 function index (ctx) {
-  ctx.status = 200
   ctx.cache.control = 'public'
   ctx.state.view.component = DemoComponent
 }
 
 function counter (ctx) {
-  ctx.status = 200
   ctx.cache.control = 'public'
   ctx.state.view.component = DemoComponent
   ctx.state.view.props = {

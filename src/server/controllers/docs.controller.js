@@ -46,8 +46,7 @@ async function index (ctx, next) {
     markedSection[section] = marked(content)
   }
 
-  // request status, cache
-  ctx.status = 200
+  // request cache
   ctx.cache.control = 'public'
 
   // metadata title && component/props

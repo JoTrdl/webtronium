@@ -98,7 +98,6 @@ describe(<span class="hljs-string">'Renderer'</span>, () =&gt; {
     <span class="hljs-keyword">const</span> router = Router()
 
     router.get(<span class="hljs-string">'/ok'</span>, ctx =&gt; {
-      ctx.body = <span class="hljs-string">'response_body_ok'</span>
       ctx.status = <span class="hljs-number">200</span>
     })
 
@@ -107,14 +106,12 @@ describe(<span class="hljs-string">'Renderer'</span>, () =&gt; {
     })
 
     router.get(<span class="hljs-string">'/skip'</span>, ctx =&gt; {
-      ctx.noRender = <span class="hljs-literal">true</span>
       ctx.status = <span class="hljs-number">200</span>
       ctx.body = <span class="hljs-string">'Renderer skipped'</span>
     })
 
     router.get(<span class="hljs-string">'/cache'</span>, ctx =&gt; {
       ctx.status = <span class="hljs-number">200</span>
-      ctx.body = <span class="hljs-string">'response_body_ok'</span>
       ctx.cache.control = <span class="hljs-string">'public'</span>
       ctx.cache.maxAge = <span class="hljs-string">'1234'</span>
 
@@ -172,7 +169,7 @@ describe(<span class="hljs-string">'Renderer'</span>, () =&gt; {
       expect(response.headers.vary).toBe(<span class="hljs-string">'Content-Type'</span>)
     }))
 
-  it(<span class="hljs-string">'should skip the rendering if asked'</span>, () =&gt;
+  it(<span class="hljs-string">'should skip the rendering if body already defined'</span>, () =&gt;
     request({
       <span class="hljs-attr">url</span>: <span class="hljs-string">`<span class="hljs-subst">${TEST_SERVER_URL}</span>/skip`</span>
     }).then(<span class="hljs-function"><span class="hljs-params">response</span> =&gt;</span> {
