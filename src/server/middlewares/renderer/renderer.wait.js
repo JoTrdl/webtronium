@@ -37,7 +37,7 @@ export default function () {
     try {
       // Time to render.
       // Depending on the status, decide which
-      // rendering function to call. 
+      // rendering function to call.
       switch (ctx.status) {
         case 200:
           await render(ctx)

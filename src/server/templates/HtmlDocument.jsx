@@ -32,7 +32,7 @@ const polyfillFeatures = [
 export default function HtmlDocument ({ state, children }) {
   // the store uses a 'context' module
   // so put the state in it
-  const store = createStore({context: state})
+  const store = createStore(state)
 
   return (
     <html lang="en">
@@ -43,27 +43,27 @@ export default function HtmlDocument ({ state, children }) {
         <meta name="author" content="Johann Troendle" />
         <meta name="keywords" content="node, react, redux, router, isomorphic, universal, server-first" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-        <title>{state.metadata.title || 'Pure Server Router'}</title>
+        <title>{state.context.metadata.title || 'Pure Server Router'}</title>
 
         <link rel="icon" type="image/png" sizes="16x16" href="/img/favicons/favicon-16x16.png" />
         <link rel="icon" type="image/png" sizes="32x32" href="/img/favicons/favicon-32x32.png" />
         <link rel="icon" type="image/png" sizes="96x96" href="/img/favicons/favicon-96x96.png" />
 
-        {state.metadata.metas.map((meta, i) => <meta key={i} {...meta} />)}
-        {state.metadata.links.map((link, i) => <link key={i} {...link} />)}
+        {state.context.metadata.metas.map((meta, i) => <meta key={i} {...meta} />)}
+        {state.context.metadata.links.map((link, i) => <link key={i} {...link} />)}
 
         { assets.app.css && <link href={`${bundlesPrefix}/${assets.app.css}`} rel="stylesheet" /> }
         <script defer src={`https://cdn.polyfill.io/v2/polyfill.min.js?features=${polyfillFeatures.join()}`} />
         <script defer src={`${bundlesPrefix}/${assets.vendor.js}`} />
         <script defer src={`${bundlesPrefix}/${assets.app.js}`} />
-        { chunks[state.view.component] && <script defer src={`${bundlesPrefix}/${chunks[state.view.component]}`} /> }
+        { chunks[state.context.view.component] && <script defer src={`${bundlesPrefix}/${chunks[state.context.view.component]}`} /> }
         <script async src='https://www.google-analytics.com/analytics.js'></script>
       </head>
       <body>
         <div id="root">
           <Provider store={store}>
-            <Router location={state.location}>
-              <App viewprops={state.view.props}>
+            <Router location={state.context.location}>
+              <App layout={state.layout}>
                 {children && children}
               </App>
             </Router>
@@ -71,7 +71,7 @@ export default function HtmlDocument ({ state, children }) {
         </div>
         <script
           dangerouslySetInnerHTML={{
-            __html: `window.INITIAL_STATE=${JSON.stringify({context: state})};`
+            __html: `window.INITIAL_STATE=${JSON.stringify(state)};`
           }}
         />
         { analyticsId &&

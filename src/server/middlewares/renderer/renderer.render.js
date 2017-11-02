@@ -15,7 +15,7 @@ const cacheConfig = config.get('server.cache')
  * Render the state defined in ctx.
  * Take care of the request caching and render the
  * ctx based on the partial/SSR type.
- * 
+ *
  * @export
  * @param {any} ctx Koa context
  */
@@ -25,7 +25,7 @@ export function render (ctx) {
   // the loaded app
   const partial = ctx.headers['x-requested-with'] === 'ClientFetchRequest'
 
-  // Handles the cache control if enabled and 
+  // Handles the cache control if enabled and
   // if differs from the default value.
   if (cacheConfig.enabled &&
       ctx.cache.control !== 'no-cache') {
@@ -56,9 +56,9 @@ export function render (ctx) {
   // serialization.
   // Try first if Redux Connect component, else default to the name
   const state = cloneDeep(ctx.state)
-  if (state.view.component) {
-    const { component } = state.view
-    state.view.component = component.WrappedComponent
+  if (state.context.view.component) {
+    const { component } = state.context.view
+    state.context.view.component = component.WrappedComponent
       ? component.WrappedComponent.name
       : component.name
   }
@@ -76,7 +76,7 @@ export function render (ctx) {
   // entry.
   if (partial) {
     ctx.type = 'json'
-    ctx.body = { context: state }
+    ctx.body = state
     return
   }
 
@@ -85,8 +85,8 @@ export function render (ctx) {
   // to render
   const content = renderToString(
     <HtmlDocument state={state}>
-      {ctx.state.view.component &&
-        <ctx.state.view.component {...ctx.state.view.props} />}
+      {ctx.state.context.view.component &&
+        <ctx.state.context.view.component {...ctx.state.context.view.props} />}
     </HtmlDocument>
   )
 
@@ -101,9 +101,9 @@ export function render (ctx) {
  */
 export function renderNotFound (ctx) {
   ctx.status = 404 // force a 404 status
-  ctx.state.metadata.title = 'Not Found'
-  ctx.state.metadata.metas.push({ name: 'description', content: 'Page not found' })
-  ctx.state.view.component = NotFound
+  ctx.state.context.metadata.title = 'Not Found'
+  ctx.state.context.metadata.metas.push({ name: 'description', content: 'Page not found' })
+  ctx.state.context.view.component = NotFound
 
   render(ctx)
 }
@@ -114,11 +114,11 @@ export function renderNotFound (ctx) {
  * @param {any} ctx
  */
 export function renderServerError (ctx) {
-  ctx.state.metadata.title = 'Server Error'
-  ctx.state.metadata.metas.push({ name: 'description', content: 'Server Error' })
+  ctx.state.context.metadata.title = 'Server Error'
+  ctx.state.context.metadata.metas.push({ name: 'description', content: 'Server Error' })
 
-  ctx.state.view.component = ServerError
-  ctx.state.view.props = {
+  ctx.state.context.view.component = ServerError
+  ctx.state.context.view.props = {
     title: ctx.error.message,
     stack: ctx.error.stack
   }

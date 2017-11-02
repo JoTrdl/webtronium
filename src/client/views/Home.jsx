@@ -13,6 +13,9 @@ export default class Home extends React.Component {
               <p className="animated fadeInUp">
                 A pure, simple and efficient pattern to build JavaScript isomorphic websites.
               </p>
+              <p className="animated fadeInUp">
+                <i>Built to minimize development pain and optimize performance gain.</i>
+              </p>
               <a href="https://github.com/JoTrdl/pure-server-router"
                 className="button button-large button-outline button-effect animated fadeInUp">
                 <span>See on Github</span>

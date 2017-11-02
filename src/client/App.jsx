@@ -5,10 +5,10 @@ import Footer from './components/Footer'
 
 export default function App (props) {
   return ([
-    <Header key="header" alt={props.viewprops.alt} />,
+    <Header key="header" alt={props.layout.alternate} />,
     <main key="main">
       { props.children && props.children }
     </main>,
-    <Footer key="footer" alt={props.viewprops.alt} />
+    <Footer key="footer" alt={props.layout.alternate} />
   ])
 }

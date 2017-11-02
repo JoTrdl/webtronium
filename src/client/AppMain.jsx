@@ -56,7 +56,7 @@ class AppMain extends React.Component {
       }
 
       // Get the new context associated with the 'to' url via the store
-      const { payload: { context } } = await this.props.fetchContext(to)
+      const context = await this.props.fetchContext(to)
 
       // Update the browser title: 
       // the metadata contains metas/links too, up to you to
@@ -97,7 +97,7 @@ class AppMain extends React.Component {
         <Router history={history} onChange={this.onRouteChange}>
           {
             this.state.component &&
-            <App viewprops={context.view.props} >
+            <App layout={this.props.layout}>
               <this.state.component {...context.view.props} />
             </App>
           }
@@ -110,7 +110,8 @@ class AppMain extends React.Component {
 // This component is connected to the store
 export default connect(
   state => ({
-    context: state.context
+    context: state.context,
+    layout: state.layout
   }),
   dispatch => ({
     fetchContext: path => dispatch(fetchContext(path)),

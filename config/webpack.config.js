@@ -29,9 +29,10 @@ const OUTPUT_STATS = {
 }
 
 const config = {
+  context: `${SRC_DIR}/client/`,
   devtool: 'source-map',
   entry: {
-    app: [`${SRC_DIR}/client/index.js`]
+    app: ['./index.js']
   },
   output: {
     path: BUILD_DIR,
@@ -165,12 +166,13 @@ if (IS_PROD) {
         const hashes = {}
         const views = data.chunks.reduce((acc, c) => {
           hashes[c.id] = c.hash
-          c.modules.forEach((m) => {
-            // grab all the chunks that have 1 chunk
-            // (potential root modules used for code splitting)
-            const matches = m.name.match(/(\w+)\.jsx/)
-            if (m.chunks.length === 1 && matches) {
-              acc[matches[1]] = `${m.chunks[0]}.${hashes[m.chunks[0]]}.js`
+          c.modules.forEach(m => {
+            // grab all the dynamic chunks (code splitting)
+            const dynamicReason = m.reasons.find(r => r.type === 'context element')
+            if (dynamicReason) {
+              const p = path.resolve(config.context, dynamicReason.userRequest)
+              const name = path.basename(p, '.jsx')
+              acc[name] = `${m.chunks[0]}.${hashes[m.chunks[0]]}.js`
             }
           })
           return acc

@@ -3,13 +3,13 @@ import DemoComponent from '../../client/views/Demo'
 
 function index (ctx) {
   ctx.cache.control = 'public'
-  ctx.state.view.component = DemoComponent
+  ctx.state.context.view.component = DemoComponent
 }
 
 function counter (ctx) {
   ctx.cache.control = 'public'
-  ctx.state.view.component = DemoComponent
-  ctx.state.view.props = {
+  ctx.state.context.view.component = DemoComponent
+  ctx.state.context.view.props = {
     counter: parseInt(ctx.query.value) || 0
   }
 }

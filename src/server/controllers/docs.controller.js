@@ -51,10 +51,10 @@ async function index (ctx, next) {
 
   // metadata title && component/props
   const sectionTitle = capitalize(section.replace(/-/g, ' '), true)
-  ctx.state.metadata.title = `${sectionTitle} | Pure Server Router`
+  ctx.state.context.metadata.title = `${sectionTitle} | Pure Server Router`
 
-  ctx.state.view.component = DocsComponent
-  ctx.state.view.props = {
+  ctx.state.context.view.component = DocsComponent
+  ctx.state.context.view.props = {
     content: markedSection[section]
   }
 

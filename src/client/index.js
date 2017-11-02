@@ -12,8 +12,8 @@ import './style/index.scss'
 
 /**
  * Bootstrap the React app.
- * 
- * @param {} initialModule 
+ *
+ * @param {} initialModule
  */
 const bootstrap = (initialView) => {
   const history = createBrowserHistory()

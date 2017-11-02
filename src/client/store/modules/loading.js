@@ -15,7 +15,7 @@ const setActive = loading.createAction(SET_ACTIVE)
 
 // Reducer
 export default loading.createReducer({
-  [SET_ACTIVE]: (state, action) => (action.payload)
+  [SET_ACTIVE]: (state, action) => action.payload
 }, initialState)
 
 export function setLoadingState (active) {
