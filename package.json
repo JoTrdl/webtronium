@@ -74,7 +74,7 @@
     "babel-preset-react": "^6.24.1",
     "css-loader": "^0.28.7",
     "docco-plus": "^2.0.0",
-    "eslint": "^4.9.0",
+    "eslint": "^4.10.0",
     "eslint-config-standard": "^10.2.1",
     "eslint-import-resolver-webpack": "^0.8.3",
     "eslint-plugin-import": "^2.8.0",
