@@ -78,14 +78,18 @@ class AppMain extends React.Component {
       this.props.setLoading(false)
 
       // Return the actual url received from
-      // the backend: keep the adddress bar synced with
+      // the backend: keep the address bar synced with
       // the server response (redirection...)
       return context.location.url
 
     // If any error occurs during this context fetch,
     // force the browser to load the page entirely
     } catch (e) {
-      window.location = to
+      if (process.env.NODE_ENV === 'development') {
+        console.error('Navigation error:', e)
+      } else {
+        window.location = to
+      }
     }
   }
 

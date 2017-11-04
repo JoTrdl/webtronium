@@ -36,7 +36,7 @@ export default function Demo (props) {
       <h1>Demos</h1>
       <p>
         Check the <a href="/annotated/src/server/controllers/demo.controller.js.html">server controller</a>
-        &nbsp;and the corresponding <a href="/annotated/src/client/views/Docs.jsx.html">JSX view</a>.
+        &nbsp;and the corresponding <a href="/annotated/src/client/views/Demo.jsx.html">JSX view</a>.
       </p>
       <div className="row">
         <div className="column column-25"><h3>Counter</h3></div>
