@@ -16,24 +16,36 @@ import './style/index.scss'
  * @param {} initialModule
  */
 const bootstrap = (initialView) => {
+  const root = document.getElementById('root')
   const history = createBrowserHistory()
   const store = createStore(window.INITIAL_STATE || {})
 
-  const root = hydrate(
-    <AppMain history={history} store={store} initialView={initialView} />,
-    document.getElementById('root')
-  )
+  const render = (RootComponent, view) => {
+    hydrate(
+      <RootComponent history={history} store={store} initialView={view} />,
+      root
+    )
+  }
+
+  render(AppMain, initialView)
 
   if (module.hot) {
-    // in dev mode, accept everything and
-    // call the AppMain component to reload
+    // in dev mode, accept everything:
+    // rerender the AppMain component and reload
     // the current view.
-    module.hot.accept()
-    module.hot.status((status) => {
-      if (status === 'apply') {
-        root.wrappedInstance.loadAsyncComponent()
-      }
-    })
+
+    const { unmountComponentAtNode } = require('react-dom')
+
+    module.hot.accept(
+      Object.keys(__webpack_modules__), // eslint-disable-line no-undef
+      () => {
+        const UpdatedApp = require('./AppMain').default
+        const { component: container } = store.getState().context.view
+        const updatedView = require(`./views/${container}`).default
+
+        unmountComponentAtNode(root)
+        render(UpdatedApp, updatedView)
+      })
   }
 }
 

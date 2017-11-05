@@ -95,13 +95,18 @@
  * @param {} initialModule
  */</span>
 <span class="hljs-keyword">const</span> bootstrap = <span class="hljs-function">(<span class="hljs-params">initialView</span>) =&gt;</span> {
+  <span class="hljs-keyword">const</span> root = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'root'</span>)
   <span class="hljs-keyword">const</span> history = createBrowserHistory()
   <span class="hljs-keyword">const</span> store = createStore(<span class="hljs-built_in">window</span>.INITIAL_STATE || {})
 
-  <span class="hljs-keyword">const</span> root = hydrate(
-    <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">AppMain</span> <span class="hljs-attr">history</span>=<span class="hljs-string">{history}</span> <span class="hljs-attr">store</span>=<span class="hljs-string">{store}</span> <span class="hljs-attr">initialView</span>=<span class="hljs-string">{initialView}</span> /&gt;</span>,
-    document.getElementById('root')
-  )
+  <span class="hljs-keyword">const</span> render = <span class="hljs-function">(<span class="hljs-params">RootComponent, view</span>) =&gt;</span> {
+    hydrate(
+      <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">RootComponent</span> <span class="hljs-attr">history</span>=<span class="hljs-string">{history}</span> <span class="hljs-attr">store</span>=<span class="hljs-string">{store}</span> <span class="hljs-attr">initialView</span>=<span class="hljs-string">{view}</span> /&gt;</span>,
+      root
+    )
+  }
+
+  render(AppMain, initialView)
 
   if (module.hot) {</span></pre></div>
             </div>
@@ -110,17 +115,24 @@
         
         <li id="section-2">
             <div class="annotation">
-                <p> in dev mode, accept everything and
- call the AppMain component to reload
+                <p> in dev mode, accept everything:
+ rerender the AppMain component and reload
  the current view.</p>
 
             </div><div class="content">
-                <div class="highlight"><pre>    <span class="hljs-built_in">module</span>.hot.accept()
-    <span class="hljs-built_in">module</span>.hot.status(<span class="hljs-function">(<span class="hljs-params">status</span>) =&gt;</span> {
-      <span class="hljs-keyword">if</span> (status === <span class="hljs-string">'apply'</span>) {
-        root.wrappedInstance.loadAsyncComponent()
-      }
-    })
+                <div class="highlight"><pre>
+    <span class="hljs-keyword">const</span> { unmountComponentAtNode } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'react-dom'</span>)
+
+    <span class="hljs-built_in">module</span>.hot.accept(
+      <span class="hljs-built_in">Object</span>.keys(__webpack_modules__), <span class="hljs-comment">// eslint-disable-line no-undef</span>
+      () =&gt; {
+        <span class="hljs-keyword">const</span> UpdatedApp = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./AppMain'</span>).default
+        <span class="hljs-keyword">const</span> { <span class="hljs-attr">component</span>: container } = store.getState().context.view
+        <span class="hljs-keyword">const</span> updatedView = <span class="hljs-built_in">require</span>(<span class="hljs-string">`./views/<span class="hljs-subst">${container}</span>`</span>).default
+
+        unmountComponentAtNode(root)
+        render(UpdatedApp, updatedView)
+      })
   }
 }
 

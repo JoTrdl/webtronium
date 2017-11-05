@@ -1,7 +1,7 @@
 import React from 'react'
 import { Provider, connect } from 'react-redux'
 
-import App from './App.jsx'
+import App from './App'
 import { Router } from './router'
 import { fetchContext } from './store/modules/context'
 import { setLoadingState } from './store/modules/loading'
@@ -27,7 +27,8 @@ class AppMain extends React.Component {
 
   // This component should be never auto updated by React.
   // Because it manages the lazy code spliting loading, it
-  // will call forceUpdate() when the component is ready to render.
+  // will call forceUpdate() when the component is ready to
+  // render.
   shouldComponentUpdate () {
     return false
   }
@@ -88,7 +89,7 @@ class AppMain extends React.Component {
       if (process.env.NODE_ENV === 'development') {
         console.error('Navigation error:', e)
       } else {
-        window.location = to
+        window.location.reload()
       }
     }
   }
@@ -124,9 +125,3 @@ export default connect(
   null,
   { withRef: true } // for HMR only
 )(AppMain)
-
-// This component cannot be hot reloaded
-// if any changes occur.
-if (module.hot) {
-  module.hot.decline()
-}
