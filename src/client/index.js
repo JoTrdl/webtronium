@@ -2,7 +2,7 @@ import React from 'react'
 import { hydrate } from 'react-dom'
 import createBrowserHistory from 'history/createBrowserHistory'
 
-import AppMain from './AppMain'
+import App from './App'
 import createStore from './store'
 
 import 'milligram'
@@ -15,36 +15,36 @@ import './style/index.scss'
  *
  * @param {} initialModule
  */
-const bootstrap = (initialView) => {
+const bootstrap = (container) => {
   const root = document.getElementById('root')
   const history = createBrowserHistory()
   const store = createStore(window.INITIAL_STATE || {})
 
-  const render = (RootComponent, view) => {
+  const render = (AppComponent, container) => {
     hydrate(
-      <RootComponent history={history} store={store} initialView={view} />,
+      <AppComponent history={history} store={store} container={container} />,
       root
     )
   }
 
-  render(AppMain, initialView)
+  render(App, container)
 
   if (module.hot) {
     // in dev mode, accept everything:
-    // rerender the AppMain component and reload
-    // the current view.
+    // rerender the App component and reload
+    // the current container.
 
     const { unmountComponentAtNode } = require('react-dom')
 
     module.hot.accept(
       Object.keys(__webpack_modules__), // eslint-disable-line no-undef
       () => {
-        const UpdatedApp = require('./AppMain').default
-        const { component: container } = store.getState().context.view
-        const updatedView = require(`./views/${container}`).default
+        const UpdatedApp = require('./App').default
+        const { component: container } = store.getState().context.container
+        const updatedContainer = require(`./containers/${container}`).default
 
         unmountComponentAtNode(root)
-        render(UpdatedApp, updatedView)
+        render(UpdatedApp, updatedContainer)
       })
   }
 }
@@ -53,9 +53,9 @@ const bootstrap = (initialView) => {
  * Client entry
  */
 document.addEventListener('DOMContentLoaded', () => {
-  // Call webpack import to get the first view.
+  // Call webpack import to get the first container.
   // (avoid an unnecessary flash)
-  import(`./views/${window.INITIAL_STATE.context.view.component}`)
-    .then(view => bootstrap(view.default))
+  import(`./containers/${window.INITIAL_STATE.context.container.component}`)
+    .then(container => bootstrap(container.default))
     .catch(bootstrap)
 })

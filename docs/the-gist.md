@@ -13,8 +13,8 @@ app.use('/my-new-route', async(ctx, next) => {
   // 2. (optional) call an external service for data
   const data = await myService.getData()
 
-  // 3. Setup the state to render: view + props
-  ctx.state.view = {
+  // 3. Setup the state to render: container + props
+  ctx.state.container = {
     component: MyReactComponent,
     props: {
       data,

@@ -1,5 +1,6 @@
 
 const isBrowser = typeof window !== 'undefined'
+const isServer = !isBrowser
 
 /**
  * Call fn next tick in the calls stack
@@ -51,6 +52,7 @@ const sendPageviewEvent = (path) => {
 
 export {
   isBrowser,
+  isServer,
   nextTick,
   Time,
   scrollPosition,

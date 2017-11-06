@@ -1,15 +1,15 @@
 
-import DemoComponent from '../../client/views/Demo'
+import DemoComponent from '../../client/containers/Demo'
 
 function index (ctx) {
   ctx.cache.control = 'public'
-  ctx.state.context.view.component = DemoComponent
+  ctx.state.context.container.component = DemoComponent
 }
 
 function counter (ctx) {
   ctx.cache.control = 'public'
-  ctx.state.context.view.component = DemoComponent
-  ctx.state.context.view.props = {
+  ctx.state.context.container.component = DemoComponent
+  ctx.state.context.container.props = {
     counter: parseInt(ctx.query.value) || 0
   }
 }

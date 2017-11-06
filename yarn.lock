@@ -549,6 +549,13 @@ babel-plugin-check-es2015-constants@^6.22.0:
   dependencies:
     babel-runtime "^6.22.0"
 
+babel-plugin-dynamic-import-webpack@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/babel-plugin-dynamic-import-webpack/-/babel-plugin-dynamic-import-webpack-1.0.1.tgz#26c24a1c1c9bf49184b30d5867562a4cbfa530d1"
+  dependencies:
+    babel-plugin-syntax-dynamic-import "^6.18.0"
+    babel-template "^6.16.0"
+
 babel-plugin-istanbul@^4.0.0:
   version "4.1.4"
   resolved "https://registry.yarnpkg.com/babel-plugin-istanbul/-/babel-plugin-istanbul-4.1.4.tgz#18dde84bf3ce329fddf3f4103fae921456d8e587"
@@ -6856,10 +6863,6 @@ webpack-dev-server@^2.9.3:
     supports-color "^4.2.1"
     webpack-dev-middleware "^1.11.0"
     yargs "^6.6.0"
-
-webpack-module-hot-accept@^1.0.5:
-  version "1.0.5"
-  resolved "https://registry.yarnpkg.com/webpack-module-hot-accept/-/webpack-module-hot-accept-1.0.5.tgz#6ac376f6763f6ba75bb764f385af959ebe46353c"
 
 webpack-sources@^1.0.1:
   version "1.0.1"

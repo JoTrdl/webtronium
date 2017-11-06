@@ -51,11 +51,11 @@ export default function () {
       metas: []
     }
 
-    // The view:
+    // The container:
     // contains the component to render
     // and any associated props we want to
     // pass down to it.
-    ctx.state.context.view = {
+    ctx.state.context.container = {
       component: null,
       props: {}
     }

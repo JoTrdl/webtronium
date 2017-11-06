@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import { isBrowser, Time } from '../utils'
 
-function createRouter ({ history, location }, callback) {
+function createRouter ({ history }, callback) {
   if (!history) {
     throw new Error('Error: "Router" component requires a history prop passed')
   }
@@ -109,7 +109,7 @@ export default class Router extends React.Component {
 
     if (action === 'PUSH') {
       // If it is a navigation click ('PUSH'),
-      // setup a new navigation key so the AppMain
+      // setup a new navigation key so the App
       // will get a unique key for this specific
       // navigation (to handle the scroll position
       // restoration)

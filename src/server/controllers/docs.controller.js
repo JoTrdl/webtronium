@@ -8,7 +8,7 @@ import highlight from 'highlight.js'
 import config from '../../../config'
 import capitalize from '../helpers/capitalize'
 
-import DocsComponent from '../../client/views/Docs'
+import DocsComponent from '../../client/containers/Docs'
 
 marked.setOptions({
   renderer: new marked.Renderer(),
@@ -53,8 +53,8 @@ async function index (ctx, next) {
   const sectionTitle = capitalize(section.replace(/-/g, ' '), true)
   ctx.state.context.metadata.title = `${sectionTitle} | Pure Server Router`
 
-  ctx.state.context.view.component = DocsComponent
-  ctx.state.context.view.props = {
+  ctx.state.context.container.component = DocsComponent
+  ctx.state.context.container.props = {
     content: markedSection[section]
   }
 

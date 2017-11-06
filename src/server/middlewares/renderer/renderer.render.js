@@ -5,8 +5,8 @@ import { cloneDeep } from 'lodash'
 
 import config from '../../../../config'
 import HtmlDocument from '../../templates/HtmlDocument'
-import NotFound from '../../../client/views/NotFound'
-import ServerError from '../../../client/views/ServerError'
+import NotFound from '../../../client/containers/NotFound'
+import ServerError from '../../../client/containers/ServerError'
 
 const appId = config.get('appId')
 const cacheConfig = config.get('server.cache')
@@ -52,13 +52,13 @@ export function render (ctx) {
   }
 
   // Format the state to render
-  // 'view.component' becomes only the component name for
+  // 'container.component' becomes only the component name for
   // serialization.
   // Try first if Redux Connect component, else default to the name
   const state = cloneDeep(ctx.state)
-  if (state.context.view.component) {
-    const { component } = state.context.view
-    state.context.view.component = component.WrappedComponent
+  if (state.context.container.component) {
+    const { component } = state.context.container
+    state.context.container.component = component.WrappedComponent
       ? component.WrappedComponent.name
       : component.name
   }
@@ -85,8 +85,8 @@ export function render (ctx) {
   // to render
   const content = renderToString(
     <HtmlDocument state={state}>
-      {ctx.state.context.view.component &&
-        <ctx.state.context.view.component {...ctx.state.context.view.props} />}
+      {ctx.state.context.container.component &&
+        <ctx.state.context.container.component {...ctx.state.context.container.props} />}
     </HtmlDocument>
   )
 
@@ -103,7 +103,7 @@ export function renderNotFound (ctx) {
   ctx.status = 404 // force a 404 status
   ctx.state.context.metadata.title = 'Not Found'
   ctx.state.context.metadata.metas.push({ name: 'description', content: 'Page not found' })
-  ctx.state.context.view.component = NotFound
+  ctx.state.context.container.component = NotFound
 
   render(ctx)
 }
@@ -117,8 +117,8 @@ export function renderServerError (ctx) {
   ctx.state.context.metadata.title = 'Server Error'
   ctx.state.context.metadata.metas.push({ name: 'description', content: 'Server Error' })
 
-  ctx.state.context.view.component = ServerError
-  ctx.state.context.view.props = {
+  ctx.state.context.container.component = ServerError
+  ctx.state.context.container.props = {
     title: ctx.error.message,
     stack: ctx.error.stack
   }

@@ -36,7 +36,7 @@ export default function Demo (props) {
       <h1>Demos</h1>
       <p>
         Check the <a href="/annotated/src/server/controllers/demo.controller.js.html">server controller</a>
-        &nbsp;and the corresponding <a href="/annotated/src/client/views/Demo.jsx.html">JSX view</a>.
+        &nbsp;and the corresponding <a href="/annotated/src/client/containers/Demo.jsx.html">JSX view</a>.
       </p>
       <div className="row">
         <div className="column column-25"><h3>Counter</h3></div>
@@ -46,7 +46,7 @@ export default function Demo (props) {
             <br />
             You can specify a value in the query params: <a href="/demos/counter?value=1234">/demos/counter?value=1234</a>
             <br />
-            The controller will send back via the view props the value and the component will initialy render it.
+            The controller will send back via the container props the value and the component will initialy render it.
           </p>
           <Counter value={props.counter} />
         </div>

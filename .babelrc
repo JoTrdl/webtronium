@@ -30,7 +30,7 @@
         "transform-react-jsx",
         "transform-object-rest-spread",
         "transform-class-properties",
-        "syntax-dynamic-import"
+        "dynamic-import-webpack"
       ]
     },
     "test": {
@@ -39,7 +39,7 @@
         "transform-react-jsx",
         "transform-object-rest-spread",
         "transform-class-properties",
-        "syntax-dynamic-import"
+        "dynamic-import-webpack"
       ]
     }
   }

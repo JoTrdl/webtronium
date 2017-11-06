@@ -1,7 +1,5 @@
 import React from 'react'
-import { Provider } from 'react-redux'
 
-import { Router } from '../../client/router'
 import App from '../../client/App'
 import createStore from '../../client/store'
 
@@ -56,18 +54,15 @@ export default function HtmlDocument ({ state, children }) {
         <script defer src={`https://cdn.polyfill.io/v2/polyfill.min.js?features=${polyfillFeatures.join()}`} />
         <script defer src={`${bundlesPrefix}/${assets.vendor.js}`} />
         <script defer src={`${bundlesPrefix}/${assets.app.js}`} />
-        { chunks[state.context.view.component] && <script defer src={`${bundlesPrefix}/${chunks[state.context.view.component]}`} /> }
+        { chunks[state.context.container.component] &&
+          <script defer src={`${bundlesPrefix}/${chunks[state.context.container.component]}`} /> }
         <script async src='https://www.google-analytics.com/analytics.js'></script>
       </head>
       <body>
         <div id="root">
-          <Provider store={store}>
-            <Router location={state.context.location}>
-              <App layout={state.layout}>
-                {children && children}
-              </App>
-            </Router>
-          </Provider>
+          <App store={store}>
+            {children && children}
+          </App>
         </div>
         <script
           dangerouslySetInnerHTML={{

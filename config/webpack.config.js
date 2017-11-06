@@ -164,7 +164,7 @@ if (IS_PROD) {
       fields: ['chunks'],
       transform: (data) => {
         const hashes = {}
-        const views = data.chunks.reduce((acc, c) => {
+        const containers = data.chunks.reduce((acc, c) => {
           hashes[c.id] = c.hash
           c.modules.forEach(m => {
             // grab all the dynamic chunks (code splitting)
@@ -178,7 +178,7 @@ if (IS_PROD) {
           return acc
         }, {})
 
-        return JSON.stringify(views, null, 2)
+        return JSON.stringify(containers, null, 2)
       }
     }),
     new BundleAnalyzerPlugin({
