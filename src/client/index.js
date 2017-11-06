@@ -13,9 +13,9 @@ import './style/index.scss'
 /**
  * Bootstrap the React app.
  *
- * @param {} initialModule
+ * @param {} container 
  */
-const bootstrap = (container) => {
+const bootstrap = container => {
   const root = document.getElementById('root')
   const history = createBrowserHistory()
   const store = createStore(window.INITIAL_STATE || {})
@@ -39,12 +39,12 @@ const bootstrap = (container) => {
     module.hot.accept(
       Object.keys(__webpack_modules__), // eslint-disable-line no-undef
       () => {
-        const UpdatedApp = require('./App').default
-        const { component: container } = store.getState().context.container
-        const updatedContainer = require(`./containers/${container}`).default
+        const UpdatedApp = require('./App')
+        const { component } = store.getState().context.container
+        const updatedContainer = require.resolveWeak(`./${process.env.CONTAINERS}/${component}`)
 
         unmountComponentAtNode(root)
-        render(UpdatedApp, updatedContainer)
+        render(UpdatedApp.default, updatedContainer.default)
       })
   }
 }
@@ -52,10 +52,14 @@ const bootstrap = (container) => {
 /*
  * Client entry
  */
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
   // Call webpack import to get the first container.
   // (avoid an unnecessary flash)
-  import(`./containers/${window.INITIAL_STATE.context.container.component}`)
-    .then(container => bootstrap(container.default))
-    .catch(bootstrap)
+  try {
+    const { component } = window.INITIAL_STATE.context.container
+    const container = await import(`./${process.env.CONTAINERS}/${component}`)
+    bootstrap(container.default)
+  } catch (e) {
+    bootstrap()
+  }
 })

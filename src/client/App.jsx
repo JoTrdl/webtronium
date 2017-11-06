@@ -44,7 +44,7 @@ class App extends React.Component {
     // default to the current container (for HMR in dev)
     const c = container || this.props.context.container.component
 
-    const module = await import(`./containers/${c}`)
+    const module = await import(`./${process.env.CONTAINERS}/${c}`)
     this.setState({ container: module.default })
     this.forceUpdate()
   }
@@ -129,7 +129,5 @@ export default connect(
   dispatch => ({
     fetchContext: path => dispatch(fetchContext(path)),
     setLoading: active => dispatch(setLoadingState(active))
-  }),
-  null,
-  { withRef: true } // for HMR only
+  })
 )(App)

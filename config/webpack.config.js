@@ -77,7 +77,7 @@ const config = {
   plugins: [
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(ENV),
-      'process.env.BROWSER': true
+      'process.env.CONTAINERS': JSON.stringify('containers')
     }),
     new ExtractTextPlugin({
       filename: IS_PROD ? '[name].[chunkhash].css' : '[name].css',
@@ -113,7 +113,10 @@ if (IS_DEV) {
   const serverUrl = `http://${appConfig.get('server.host')}:${appConfig.get('server.port')}`
   const devServerUrl = `http://localhost:${appConfig.get('devServer.port')}`
   config.output.publicPath = `${devServerUrl}/${PUBLIC_PATH}/`
-  config.entry.app.push(`webpack-dev-server/client?${devServerUrl}`, 'webpack/hot/only-dev-server')
+  config.entry.app.push(
+    `webpack-dev-server/client?${devServerUrl}`,
+    'webpack/hot/only-dev-server'
+  )
   config.plugins.push(
     new FriendlyErrorsPlugin(),
     new webpack.HotModuleReplacementPlugin(),
@@ -148,7 +151,8 @@ if (IS_DEV) {
 if (IS_PROD) {
   config.plugins.push(
     new webpack.optimize.UglifyJsPlugin({
-      compress: { warnings: false }
+      compress: { warnings: false },
+      sourceMap: true
     }),
     new OptimizeCssAssetsPlugin({
       cssProcessorOptions: { discardComments: { removeAll: true } }
