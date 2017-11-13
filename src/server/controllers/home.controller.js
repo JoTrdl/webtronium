@@ -1,5 +1,5 @@
 
-import HomeComponent from '../../client/containers/Home'
+import HomeComponent from '../../client/components/HomeContainer'
 
 function index (ctx) {
   ctx.cache.control = 'public'

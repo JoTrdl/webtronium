@@ -30,7 +30,13 @@
         "transform-react-jsx",
         "transform-object-rest-spread",
         "transform-class-properties",
-        "dynamic-import-webpack"
+        "dynamic-import-webpack",
+        ["css-modules-transform", {
+          "camelCase": true,
+          "extensions": [".css"],
+          "generateScopedName": "./config/name.cssmodules.config.js",
+          "preprocessCss": "./config/postcss.config.js"
+        }]
       ]
     },
     "test": {
@@ -39,7 +45,13 @@
         "transform-react-jsx",
         "transform-object-rest-spread",
         "transform-class-properties",
-        "dynamic-import-webpack"
+        "dynamic-import-webpack",
+        ["css-modules-transform", {
+          "camelCase": true,
+          "extensions": [".css"],
+          "generateScopedName": "./config/name.cssmodules.config.js",
+          "preprocessCss": "./config/postcss.config.js"
+        }]
       ]
     }
   }

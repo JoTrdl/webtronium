@@ -1,4 +1,7 @@
 
+import queries from './queries'
+import request from './request'
+
 const isBrowser = typeof window !== 'undefined'
 const isServer = !isBrowser
 
@@ -55,6 +58,8 @@ export {
   isServer,
   nextTick,
   Time,
+  queries,
+  request,
   scrollPosition,
   sendPageviewEvent
 }

@@ -1,10 +1,9 @@
 import React from 'react'
 import { Provider, connect } from 'react-redux'
 
-import Layout from './components/Layout'
-import { Router } from './router'
+import Layout from './components/common/Layout'
+import { Router } from './components/router'
 import { fetchContext } from './store/modules/context'
-import { setLoadingState } from './store/modules/loading'
 import {
   isBrowser,
   isServer,
@@ -15,7 +14,9 @@ class App extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      container: props.container
+      container: props.container,
+      loading: false, // loading indicator
+      fetching: false // currently fetching
     }
 
     if (isBrowser && !props.container) {
@@ -34,7 +35,7 @@ class App extends React.Component {
   // will call forceUpdate() when the component is ready to
   // render.
   shouldComponentUpdate () {
-    return false
+    return !this.state.fetching
   }
 
   // This function calls Webpack to lazy load
@@ -51,7 +52,7 @@ class App extends React.Component {
 
   async onRouteChange ({ to, state, action }) {
     try {
-      this.props.setLoading(true)
+      this.setState({ loading: true })
 
       // Save the current scroll position only if it is
       // a push action (user clicked on a link to navigate
@@ -59,6 +60,8 @@ class App extends React.Component {
       if (action === 'PUSH') {
         this.scrollPositions[state.navKey] = scrollPosition()
       }
+
+      this.setState({ fetching: true })
 
       // Get the new context associated with the 'to' url via the store
       const context = await this.props.fetchContext(to)
@@ -71,6 +74,8 @@ class App extends React.Component {
       // Lazy load the container to render
       await this.loadAsyncContainer(context.container.component)
 
+      this.setState({ fetching: false })
+
       // Reset the saved scroll position if the user clicked on
       // the back button, else to go to the top.
       scrollPosition(action === 'POP'
@@ -80,7 +85,7 @@ class App extends React.Component {
 
       sendPageviewEvent(context.location.url)
 
-      this.props.setLoading(false)
+      this.setState({ loading: false })
 
       // Return the actual url received from
       // the backend: keep the address bar synced with
@@ -99,7 +104,8 @@ class App extends React.Component {
   }
 
   render () {
-    const { history, store, context, children } = this.props
+    const { loading } = this.state
+    const { history, store, context, layout, children } = this.props
 
     const ActiveContainer = this.state.container &&
       <this.state.container {...context.container.props} />
@@ -110,7 +116,7 @@ class App extends React.Component {
           history={history}
           location={context.location}
           onChange={this.onRouteChange}>
-          <Layout layout={this.props.layout}>
+          <Layout layout={layout} loading={loading}>
             { isServer && children }
             { isBrowser && ActiveContainer }
           </Layout>
@@ -127,7 +133,6 @@ export default connect(
     layout: state.layout
   }),
   dispatch => ({
-    fetchContext: path => dispatch(fetchContext(path)),
-    setLoading: active => dispatch(setLoadingState(active))
+    fetchContext: path => dispatch(fetchContext(path))
   })
 )(App)

@@ -1,6 +1,6 @@
 import { createDuck } from 'redux-duck'
 
-import { fetchRoute } from '../../router'
+import { request } from '../../utils'
 
 const context = createDuck('context')
 
@@ -9,15 +9,36 @@ const initialState = {}
 
 // Types
 const SET_STATE = context.defineType('SET_STATE')
-const FETCH_CONTEXT_ERROR = context.defineType('FETCH_CONTEXT_ERROR')
 
-// Actions
-const fetchContextError = context.createAction(FETCH_CONTEXT_ERROR)
+/**
+ * Function to fetch a route from the backend.
+ *
+ * Uses the X-Requested-With header to tell to the
+ * backend that the route is loaded from an 'alive'
+ * client.
+ *
+ * The backend will respond with an object (json)
+ * representation.
+ *
+ * Returns the response data and the final url. The
+ * fetch api follows the redirects, so we need to
+ * update the url in the address bar if we got one.
+ *
+ * @param {string} path
+ */
+function fetchRoute (path) {
+  return request.get(path, {
+    headers: {
+      Accept: 'application/json',
+      'X-Requested-With': 'ClientFetchRequest'
+    },
+    resolveErrors: [404, 500]
+  }).json
+}
 
 // Reducer
 export default context.createReducer({
-  [SET_STATE]: (state, action) => ({ ...state, ...action.payload }),
-  [FETCH_CONTEXT_ERROR]: (state, action) => ({ ...state, ...action.payload })
+  [SET_STATE]: (state, action) => ({ ...state, ...action.payload })
 }, initialState)
 
 export function fetchContext (path) {
@@ -29,6 +50,5 @@ export function fetchContext (path) {
         })
         return getState().context
       })
-      .catch(e => dispatch(fetchContextError({ e })))
   }
 }

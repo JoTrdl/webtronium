@@ -1,0 +1,27 @@
+
+@import "variables";
+@import "helpers";
+
+footer {
+  @extend %z-foreground;
+  @extend %center;
+  @extend %v-align;
+
+  width: 100%;
+  height: 4rem;
+  min-height: 4rem;
+  color: var(--primary-alt);
+  background: var(--primary);
+}
+
+.no-margin {
+  @extend %no-margin;
+}
+
+.alternate {
+  font-size: .8em;
+  position: fixed;
+  bottom: 0;
+  background: transparent;
+  color: var(--white);
+}

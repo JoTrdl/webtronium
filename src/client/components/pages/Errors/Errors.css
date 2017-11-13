@@ -1,0 +1,19 @@
+@import "variables";
+@import "helpers";
+
+.container {
+  margin: 2em auto 2em;
+  max-width: 80%;
+
+  & pre {
+    font-size: .8em;
+  }
+}
+
+.center {
+  @extend %center;
+}
+
+.mg-top-2 {
+  @extend %mg-top-2;
+}

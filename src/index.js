@@ -7,4 +7,8 @@ if (config.get('env') === 'development') {
   require('node-hot')
 }
 
+// relative imports
+require('app-module-path').addPath(__dirname)
+
+// bootstrap the server
 require('./server')

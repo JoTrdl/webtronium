@@ -8,6 +8,8 @@ const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 const StatsWriterPlugin = require('webpack-stats-plugin').StatsWriterPlugin
 
 const appConfig = require('.')
+const postcssConfig = require('./postcss.config')
+const generateScopedName = require('./name.cssmodules.config')
 
 const ENV = process.env.NODE_ENV || 'development'
 const IS_PROD = ENV === 'production'
@@ -16,6 +18,7 @@ const IS_DEV = ENV === 'development'
 const PUBLIC_PATH = 'bundles'
 const SRC_DIR = path.join(__dirname, '../src')
 const BUILD_DIR = path.join(__dirname, `../dist/${PUBLIC_PATH}`)
+const LAZY_CHUNKS_DIR = 'components'
 
 const OUTPUT_STATS = {
   colors: true,
@@ -27,6 +30,29 @@ const OUTPUT_STATS = {
   children: false,
   chunkModules: false
 }
+
+const STYLE_LOADERS = [
+  {
+    loader: 'css-loader',
+    options: {
+      importLoaders: 1,
+      modules: true,
+      camelCase: true,
+      getLocalIdent: (context, localIdentName, localName) => {
+        return generateScopedName(localName, context.resourcePath)
+      }
+    }
+  },
+  {
+    loader: 'postcss-loader',
+    options: {
+      ident: 'postcss',
+      plugins () {
+        return postcssConfig
+      }
+    }
+  }
+]
 
 const config = {
   context: `${SRC_DIR}/client/`,
@@ -40,7 +66,10 @@ const config = {
     filename: IS_PROD ? '[name].[chunkhash].js' : '[name].js'
   },
   resolve: {
-    extensions: ['.jsx', '.js', '.css']
+    extensions: ['.jsx', '.js', '.css'],
+    alias: {
+      client: `${SRC_DIR}/client/`
+    }
   },
   module: {
     rules: [
@@ -55,12 +84,10 @@ const config = {
         }
       },
       {
-        test: /\.(scss|sass|css)$/,
+        test: /\.css$/,
         use: IS_DEV
-          ? [{ loader: 'style-loader' }, { loader: 'css-loader' }, { loader: 'sass-loader' }]
-          : ExtractTextPlugin.extract({
-            use: [{ loader: 'css-loader' }, { loader: 'sass-loader' }]
-          })
+          ? [{ loader: 'style-loader' }, ...STYLE_LOADERS]
+          : ExtractTextPlugin.extract({ use: STYLE_LOADERS })
       },
       {
         test: /\.jsx?$/,
@@ -77,12 +104,10 @@ const config = {
   plugins: [
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(ENV),
-      'process.env.CONTAINERS': JSON.stringify('containers')
+      'process.env.CONTAINERS': JSON.stringify(LAZY_CHUNKS_DIR)
     }),
-    new ExtractTextPlugin({
-      filename: IS_PROD ? '[name].[chunkhash].css' : '[name].css',
-      allChunks: true
-    }),
+    // Do not recursively scan the lazy directory
+    new webpack.ContextReplacementPlugin(new RegExp(LAZY_CHUNKS_DIR), false),
     // Extract vendor chunks for better caching
     new webpack.optimize.CommonsChunkPlugin({
       name: 'vendor',
@@ -154,8 +179,12 @@ if (IS_PROD) {
       compress: { warnings: false },
       sourceMap: true
     }),
+    new ExtractTextPlugin({
+      filename: '[name].[chunkhash].css',
+      allChunks: true
+    }),
     new OptimizeCssAssetsPlugin({
-      cssProcessorOptions: { discardComments: { removeAll: true } }
+      cssProcessorOptions: { 'preset': 'advanced' }
     }),
     new AssetsPlugin({
       path: `${BUILD_DIR}`,

@@ -1,0 +1,43 @@
+@import "variables";
+@import "helpers";
+
+:root {
+  --nav-width: 20rem;
+}
+
+.menu {
+  position: fixed;
+  width: var(--nav-width);
+  background: var(--grey-blue-alt);
+  border-right: 1px solid var(--grey-blue-alt-2);
+  height: 100vh;
+
+  & ul {
+    @extend %no-list-style;
+  }
+
+  & li { 
+    margin: 0;
+  }
+
+  & li > a {
+    display: block;
+    color: var(--blue);
+    padding: 10px 15px 10px 25px;
+  }
+
+  & li > hr {
+    margin: 0;
+    border-top: 0.1rem solid var(--grey-blue-alt-2);
+  }
+
+  & li > a.active,
+  & li > a:hover {
+    background: var(--grey-blue);
+  }
+}
+
+.content {
+  margin-left: var(--nav-width);
+  padding: 1em 2em;
+}

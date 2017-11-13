@@ -5,15 +5,14 @@ import createBrowserHistory from 'history/createBrowserHistory'
 import App from './App'
 import createStore from './store'
 
-import 'milligram'
-import 'animate.css'
-import 'highlight.js/styles/github.css'
-import './style/index.scss'
+import './style'
+// eslint-disable-next-line import/no-webpack-loader-syntax
+import '!style-loader!css-loader!highlight.js/styles/github.css'
 
 /**
  * Bootstrap the React app.
  *
- * @param {} container 
+ * @param {} container
  */
 const bootstrap = container => {
   const root = document.getElementById('root')
@@ -39,6 +38,11 @@ const bootstrap = container => {
     module.hot.accept(
       Object.keys(__webpack_modules__), // eslint-disable-line no-undef
       () => {
+        // re-require the style
+        require('./style')
+        require('./style/global')
+
+        // re-require/render the app
         const UpdatedApp = require('./App')
         const { component } = store.getState().context.container
         const updatedContainer = require.resolveWeak(`./${process.env.CONTAINERS}/${component}`)
