@@ -175,6 +175,7 @@ if (IS_DEV) {
 // ---------------------------------------
 if (IS_PROD) {
   config.plugins.push(
+    new webpack.HashedModuleIdsPlugin(),
     new webpack.optimize.UglifyJsPlugin({
       compress: { warnings: false },
       sourceMap: true

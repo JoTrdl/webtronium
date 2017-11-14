@@ -30,6 +30,7 @@ function fetchRoute (path) {
   return request.get(path, {
     headers: {
       Accept: 'application/json',
+      'Content-Type': 'application/json',
       'X-Requested-With': 'ClientFetchRequest'
     },
     resolveErrors: [404, 500]

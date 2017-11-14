@@ -1,7 +1,7 @@
 
 @import "variables";
 
-main {
+.main {
   margin-top: var(--header-height);
   flex: 1 0 auto;
 }

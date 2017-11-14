@@ -4,11 +4,7 @@ import { Provider, connect } from 'react-redux'
 import Layout from './components/common/Layout'
 import { Router } from './components/router'
 import { fetchContext } from './store/modules/context'
-import {
-  isBrowser,
-  isServer,
-  scrollPosition,
-  sendPageviewEvent } from './utils'
+import { isBrowser, isServer, scrollPosition, sendPageviewEvent } from './utils'
 
 class App extends React.Component {
   constructor (props) {
