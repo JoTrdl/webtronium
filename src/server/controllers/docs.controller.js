@@ -51,7 +51,7 @@ async function index (ctx, next) {
 
   // metadata title && component/props
   const sectionTitle = capitalize(section.replace(/-/g, ' '), true)
-  ctx.state.context.metadata.title = `${sectionTitle} | Pure Server Router`
+  ctx.state.context.metadata.title = `${sectionTitle} | Webtronium`
 
   ctx.state.context.container.component = DocsContainer
   ctx.state.context.container.props = {

@@ -12,7 +12,7 @@ export default function Header (props) {
       <LoadingBar alt={props.alt} active={props.loading}/>
       <nav>
         <h1 className={s.logo}>
-          <Link to="/">Pure Server Router</Link>
+          <Link to="/">Webtronium</Link>
         </h1>
         <ul className={s.navList}>
           <li>
@@ -22,7 +22,7 @@ export default function Header (props) {
             <Link to="/demos" match activeClassName={s.active}>Demos</Link>
           </li>
         </ul>
-        <a href="https://github.com/JoTrdl/pure-server-router" target="_blank" rel="noopener noreferrer">
+        <a href="https://github.com/JoTrdl/webtronium" target="_blank" rel="noopener noreferrer">
           <svg className={s.octocat} viewBox="0 0 250 250">
             <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
             <path className={s.octocatArm} d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"></path>

@@ -65,7 +65,7 @@ class App extends React.Component {
       // Update the browser title: 
       // the metadata contains metas/links too, up to you to
       // update them if needed
-      document.title = context.metadata.title || 'Pure Server Router'
+      document.title = context.metadata.title || 'Webtronium'
 
       // Lazy load the container to render
       await this.loadAsyncContainer(context.container.component)

@@ -7,7 +7,7 @@ import MyReactComponent from '../some/path/MyReactComponent'
 
 // Koa
 app.use('/my-new-route', async(ctx, next) => {
-  // 1. set the status to 200
+  // 1. set the status to 200 (optional, auto set if a route matched)
   ctx.status = 200
 
   // 2. (optional) call an external service for data
