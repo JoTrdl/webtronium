@@ -30,6 +30,26 @@ const Script = ({ content }) => Div({ tag: 'script', content })
 const Style = ({ content }) => Div({ tag: 'style', content })
 const Body = ({ content }) => Div({ tag: 'body', content })
 
+const Metatags = metas => (
+  metas.map((meta, i) => <meta key={i} {...meta} />)
+)
+
+const Links = links => (
+  links.map((link, i) => <link key={i} {...link} />)
+)
+
+const Scripts = scripts => (
+  scripts.map((script, i) => {
+    const { src, inner } = script
+    if (!src && !inner) {
+      return null
+    }
+    return inner
+      ? <Script key={i} content={inner} />
+      : <script key={i} {...script} />
+  })
+)
+
 /**
  * HtmlDocument component
  *
@@ -38,49 +58,52 @@ const Body = ({ content }) => Div({ tag: 'body', content })
  * @returns
  */
 export default function HtmlDocument ({ state, content, criticalCSS }) {
+  // Add the main App css to the links if defined
+  if (assets.app.css) {
+    const cssLink = { rel: 'stylesheet' }
+
+    // 'data-href' if critical css is here, else default 'href'
+    cssLink[criticalCSS ? 'data-href' : 'href'] = `${bundlesPrefix}/${assets.app.css}`
+    state.context.metadata.links.push(cssLink)
+  }
+
   return (
     <html lang="en">
       <head>
-        <meta charSet="utf-8" />
-        <meta name="language" content="en" />
-        <meta httpEquiv="Content-Type" content="text/html; charset=UTF-8" />
-        <meta name="author" content="Johann Troendle" />
-        <meta name="keywords" content="node, react, redux, router, isomorphic, universal, server-first" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-        <title>{state.context.metadata.title || 'Webtronium'}</title>
+        <title>{ state.context.metadata.title || 'Webtronium' }</title>
 
-        <link rel="icon" type="image/png" sizes="16x16" href="/img/favicons/favicon-16x16.png" />
-        <link rel="icon" type="image/png" sizes="32x32" href="/img/favicons/favicon-32x32.png" />
-        <link rel="icon" type="image/png" sizes="96x96" href="/img/favicons/favicon-96x96.png" />
+        { /* Metatags section */ }
+        {Metatags([
+          { charSet: 'utf-8' },
+          { name: 'language', content: 'en' },
+          { httpEquiv: 'Content-Type', content: 'text/html; charset=UTF-8' },
+          { name: 'author', content: 'Johann Troendle' },
+          { name: 'keywords', content: 'node, react, redux, router, isomorphic, universal, server-first' },
+          { name: 'viewport', content: 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no' },
+          ...state.context.metadata.metas
+        ])}
 
-        {state.context.metadata.metas.map((meta, i) => <meta key={i} {...meta} />)}
-        {state.context.metadata.links.map((link, i) => <link key={i} {...link} />)}
+        { /* If critical css specified, inline the style */ }
+        { criticalCSS && <Style content={criticalCSS} /> }
 
-        { /* CSS section:
-          If critical css specified, sent it and postload the bundle */ }
-        { criticalCSS && <Style content={criticalCSS} />}
-        { criticalCSS &&
-          <link data-href={`${bundlesPrefix}/${assets.app.css}`} rel="stylesheet" />
-        }
-        { !criticalCSS && assets.app.css &&
-          <link href={`${bundlesPrefix}/${assets.app.css}`} rel="stylesheet" /> }
+        { /* Links section */ }
+        {Links([
+          { rel: 'icon', type: 'image/png', sizes: '16x16', href: '/img/favicons/favicon-16x16.png' },
+          { rel: 'icon', type: 'image/png', sizes: '32x32', href: '/img/favicons/favicon-32x32.png' },
+          { rel: 'icon', type: 'image/png', sizes: '96x96', href: '/img/favicons/favicon-96x96.png' },
+          ...state.context.metadata.links
+        ])}
 
         { /* Scripts section */ }
-        <script defer src={`https://cdn.polyfill.io/v2/polyfill.min.js?features=${polyfillFeatures.join()}`} />
-        <script defer src={`${bundlesPrefix}/${assets.vendor.js}`} />
-        <script defer src={`${bundlesPrefix}/${assets.app.js}`} />
-        { chunks[state.context.container.component] &&
-          <script defer src={`${bundlesPrefix}/${chunks[state.context.container.component]}`} /> }
-        <script async src='https://www.google-analytics.com/analytics.js'></script>
-
-        <Script content={`window.INITIAL_STATE=${JSON.stringify(state)};`} />
-        { analyticsId &&
-          <Script content={`
-            window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-            ga('create', '${analyticsId}', 'auto');
-            ga('send', 'pageview');`}
-          />
-        }
+        {Scripts([
+          { defer: true, src: `https://cdn.polyfill.io/v2/polyfill.min.js?features=${polyfillFeatures.join()}` },
+          { defer: true, src: `${bundlesPrefix}/${assets.vendor.js}` },
+          { defer: true, src: `${bundlesPrefix}/${assets.app.js}` },
+          { defer: true, src: chunks[state.context.container.component] && `${bundlesPrefix}/${chunks[state.context.container.component]}` },
+          { async: true, src: 'https://www.google-analytics.com/analytics.js' },
+          { inner: `window.INITIAL_STATE=${JSON.stringify(state)};` },
+          { inner: `window.ANALYTICS_ID=${JSON.stringify(analyticsId)};` }
+        ])}
       </head>
       <Body content={content} />
     </html>

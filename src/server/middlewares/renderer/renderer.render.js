@@ -1,5 +1,5 @@
 import React from 'react'
-import { renderToString, renderToNodeStream } from 'react-dom/server'
+import { renderToStaticMarkup, renderToNodeStream } from 'react-dom/server'
 import xxhash from 'xxhashjs'
 import { cloneDeep } from 'lodash'
 
@@ -113,7 +113,7 @@ export async function render (ctx) {
   // Once rendered, extract the critical css
   const criticalCSS = await extractCriticalCSS(ctx.extractCssKey || ctx._matchedRoute, content)
 
-  const document = renderToString(
+  const document = renderToStaticMarkup(
     <HtmlDocument state={state} content={content} criticalCSS={criticalCSS} />
   )
 
