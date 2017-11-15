@@ -92,7 +92,7 @@ class App extends React.Component {
     // force the browser to load the page entirely
     } catch (e) {
       if (process.env.NODE_ENV === 'development') {
-        console.error('Navigation error:', e)
+        console.error('Navigation error (will reload page in production mode):', e)
       } else {
         window.location.reload()
       }

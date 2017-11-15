@@ -6,7 +6,7 @@ const CLIENT_STYLE_PATH = path.resolve(__dirname, '../src/client/style')
 const DEFAULT_CONFIG = [
   require('postcss-custom-properties')(),
   require('postcss-nesting')(),
-  require('postcss-extend')(),
+  require('postcss-inherit')(),
   require('postcss-atroot')(),
   require('postcss-color-function')(),
   require('postcss-cssnext')({

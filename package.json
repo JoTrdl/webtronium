@@ -60,6 +60,7 @@
     "redux-duck": "^1.0.2",
     "redux-thunk": "^2.2.0",
     "request": "^2.83.0",
+    "semaphore-async-await": "^1.5.1",
     "uncss": "^0.15.0",
     "xxhashjs": "^0.2.1"
   },
@@ -104,9 +105,9 @@
     "postcss-color-function": "^4.0.1",
     "postcss-cssnext": "^3.0.2",
     "postcss-custom-properties": "^6.2.0",
-    "postcss-extend": "^1.0.5",
     "postcss-import": "^11.0.0",
     "postcss-import-sync2": "^1.0.0",
+    "postcss-inherit": "^4.0.3",
     "postcss-loader": "^2.0.8",
     "postcss-nesting": "^4.2.1",
     "react-test-renderer": "^16.1.1",

@@ -58,4 +58,9 @@ document.addEventListener('DOMContentLoaded', async () => {
   } catch (e) {
     bootstrap()
   }
+
+  // Load any defered css (critical css)
+  document.querySelectorAll('head link[data-href]').forEach(l => {
+    l.setAttribute('href', l.getAttribute('data-href'))
+  })
 })

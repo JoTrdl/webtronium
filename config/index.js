@@ -106,6 +106,12 @@ const config = convict({
         format: 'String',
         default: JSON.stringify({})
       }
+    },
+    // critical CSS
+    criticalCSSEnabled: {
+      doc: 'Critical CSS extraction enabled',
+      format: 'Boolean',
+      default: true
     }
   },
   /**

@@ -7,7 +7,8 @@
     },
     "bundles": {
       "prefix": "http://localhost:8082/bundles"
-    }
+    },
+    "criticalCSSEnabled": false
   },
   "docs": {
     "cache": false

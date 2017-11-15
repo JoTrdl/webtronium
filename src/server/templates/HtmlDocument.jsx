@@ -1,8 +1,5 @@
 import React from 'react'
 
-import App from '../../client/App'
-import createStore from '../../client/store'
-
 import config from '../../../config'
 
 const bundlesPrefix = config.get('server.bundles.prefix')
@@ -20,6 +17,19 @@ const polyfillFeatures = [
   'Object.entries'
 ]
 
+// Some sugar JSX
+const Div = ({ tag, id, content }) => (
+  React.createElement(tag || 'div', {
+    id,
+    dangerouslySetInnerHTML: {
+      __html: content
+    }
+  })
+)
+const Script = ({ content }) => Div({ tag: 'script', content })
+const Style = ({ content }) => Div({ tag: 'style', content })
+const Body = ({ content }) => Div({ tag: 'body', content })
+
 /**
  * HtmlDocument component
  *
@@ -27,11 +37,7 @@ const polyfillFeatures = [
  * @param {any} { state, children }
  * @returns
  */
-export default function HtmlDocument ({ state, children }) {
-  // the store uses a 'context' module
-  // so put the state in it
-  const store = createStore(state)
-
+export default function HtmlDocument ({ state, content, criticalCSS }) {
   return (
     <html lang="en">
       <head>
@@ -50,37 +56,33 @@ export default function HtmlDocument ({ state, children }) {
         {state.context.metadata.metas.map((meta, i) => <meta key={i} {...meta} />)}
         {state.context.metadata.links.map((link, i) => <link key={i} {...link} />)}
 
-        { assets.app.css && <link href={`${bundlesPrefix}/${assets.app.css}`} rel="stylesheet" /> }
+        { /* CSS section:
+          If critical css specified, sent it and postload the bundle */ }
+        { criticalCSS && <Style content={criticalCSS} />}
+        { criticalCSS &&
+          <link data-href={`${bundlesPrefix}/${assets.app.css}`} rel="stylesheet" />
+        }
+        { !criticalCSS && assets.app.css &&
+          <link href={`${bundlesPrefix}/${assets.app.css}`} rel="stylesheet" /> }
+
+        { /* Scripts section */ }
         <script defer src={`https://cdn.polyfill.io/v2/polyfill.min.js?features=${polyfillFeatures.join()}`} />
         <script defer src={`${bundlesPrefix}/${assets.vendor.js}`} />
         <script defer src={`${bundlesPrefix}/${assets.app.js}`} />
         { chunks[state.context.container.component] &&
           <script defer src={`${bundlesPrefix}/${chunks[state.context.container.component]}`} /> }
         <script async src='https://www.google-analytics.com/analytics.js'></script>
-      </head>
-      <body>
-        <div id="root">
-          <App store={store}>
-            {children && children}
-          </App>
-        </div>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `window.INITIAL_STATE=${JSON.stringify(state)};`
-          }}
-        />
+
+        <Script content={`window.INITIAL_STATE=${JSON.stringify(state)};`} />
         { analyticsId &&
-          <script
-            dangerouslySetInnerHTML={{
-              __html: `
-                window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-                ga('create', '${analyticsId}', 'auto');
-                ga('send', 'pageview');
-              `
-            }}
+          <Script content={`
+            window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+            ga('create', '${analyticsId}', 'auto');
+            ga('send', 'pageview');`}
           />
         }
-      </body>
+      </head>
+      <Body content={content} />
     </html>
   )
 }

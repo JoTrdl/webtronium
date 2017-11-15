@@ -25,14 +25,10 @@ const idGenerator = () => {
       return index[name]
     }
 
-    let nextId
-
     do {
       // Class name cannot start with a number.
-      nextId = generateNextId()
-    } while (/^[0-9]/.test(nextId))
-
-    index[name] = generateNextId()
+      index[name] = generateNextId()
+    } while (/^[0-9]/.test(index[name]))
 
     return index[name]
   }

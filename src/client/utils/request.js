@@ -1,5 +1,5 @@
 
-const DEFAULT_TIMEOUT = 10 * 60 // 10 secs
+const DEFAULT_TIMEOUT = 10 * 1000 // 10 secs
 
 const resolvable = () => {
   let _resolve

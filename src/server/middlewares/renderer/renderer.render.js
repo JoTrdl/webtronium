@@ -1,9 +1,12 @@
 import React from 'react'
-import { renderToString } from 'react-dom/server'
+import { renderToString, renderToNodeStream } from 'react-dom/server'
 import xxhash from 'xxhashjs'
 import { cloneDeep } from 'lodash'
 
+import extractCriticalCSS from './renderer.critical-css'
 import config from '../../../../config'
+import App from '../../../client/App'
+import createStore from '../../../client/store'
 import HtmlDocument from '../../templates/HtmlDocument'
 import ErrorContainer from '../../../client/components/ErrorContainer'
 
@@ -18,7 +21,7 @@ const cacheConfig = config.get('server.cache')
  * @export
  * @param {any} ctx Koa context
  */
-export function render (ctx) {
+export async function render (ctx) {
   // Determine if it is a 'partial' request.
   // Meaning that a client requested data from
   // the loaded app
@@ -80,17 +83,42 @@ export function render (ctx) {
   }
 
   // Else it is a full SSR: render the dom to string.
-  // Use the template and pass to it the component
-  // to render
-  const content = renderToString(
-    <HtmlDocument state={state}>
-      {ctx.state.context.container.component &&
-        <ctx.state.context.container.component {...ctx.state.context.container.props} />}
-    </HtmlDocument>
+  // 1 - Render the content
+  // 2 - Extract the critical CSS
+  // 3 - Render the HTML page
+
+  // render the App content via Stream
+  // to give more 'air' for the server
+  const renderContent = () => {
+    return new Promise((resolve, reject) => {
+      const { container } = ctx.state.context
+      const stream = renderToNodeStream(
+        <div id="root">
+          <App store={createStore(state)}>
+            {container.component &&
+              <container.component {...container.props} />}
+          </App>
+        </div>
+      )
+
+      const chunks = []
+      stream.on('data', chunk => chunks.push(chunk))
+      stream.on('end', () => resolve(Buffer.concat(chunks).toString()))
+      stream.on('error', e => reject(e))
+    })
+  }
+
+  const content = await renderContent()
+
+  // Once rendered, extract the critical css
+  const criticalCSS = await extractCriticalCSS(ctx.extractCssKey || ctx._matchedRoute, content)
+
+  const document = renderToString(
+    <HtmlDocument state={state} content={content} criticalCSS={criticalCSS} />
   )
 
   ctx.type = 'html'
-  ctx.body = `<!DOCTYPE html>\n${content}`
+  ctx.body = `<!DOCTYPE html>\n${document}`
 }
 
 /**
@@ -98,7 +126,8 @@ export function render (ctx) {
  * @export
  * @param {any} ctx
  */
-export function renderNotFound (ctx) {
+export async function renderNotFound (ctx) {
+  ctx.extractCssKey = 'not_found'
   ctx.status = 404 // force a 404 status
   ctx.state.context.metadata.title = 'Not Found'
   ctx.state.context.metadata.metas.push({ name: 'description', content: 'Page not found' })
@@ -107,7 +136,7 @@ export function renderNotFound (ctx) {
     status: 404
   }
 
-  render(ctx)
+  return render(ctx)
 }
 
 /**
@@ -115,7 +144,8 @@ export function renderNotFound (ctx) {
  * @export
  * @param {any} ctx
  */
-export function renderServerError (ctx) {
+export async function renderServerError (ctx) {
+  ctx.extractCssKey = 'server_error'
   ctx.state.context.metadata.title = 'Server Error'
   ctx.state.context.metadata.metas.push({ name: 'description', content: 'Server Error' })
 
@@ -126,5 +156,5 @@ export function renderServerError (ctx) {
     stack: ctx.error.stack
   }
 
-  render(ctx)
+  return render(ctx)
 }
