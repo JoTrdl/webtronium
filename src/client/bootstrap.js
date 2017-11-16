@@ -60,7 +60,11 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 
   // Load any defered css (critical css)
-  document.querySelectorAll('head link[data-href]').forEach(l => {
-    l.setAttribute('href', l.getAttribute('data-href'))
+  // on window.onload
+  window.addEventListener('load', () => {
+    // Load any defered css (critical css)
+    document.querySelectorAll('head link[data-href]').forEach(l => {
+      l.setAttribute('href', l.getAttribute('data-href'))
+    })
   })
 })
