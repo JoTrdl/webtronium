@@ -23,6 +23,7 @@
   },
   "scripts": {
     "start": "NODE_ENV=production node ./dist",
+    "inspect": "NODE_ENV=production node --inspect ./dist",
     "dev": "npm-run-all -p --print-label dev:*",
     "dev:client": "NODE_ENV=development webpack-dev-server --config ./config/webpack.config.js",
     "dev:server": "NODE_ENV=development BABEL_ENV=node babel-node ./src",
