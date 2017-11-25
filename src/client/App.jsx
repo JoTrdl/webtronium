@@ -4,8 +4,15 @@ import { Provider, connect } from 'react-redux'
 import Layout from './components/common/Layout'
 import { Router } from './components/router'
 import { fetchContext } from './store/modules/context'
+import { initViewport } from './store/modules/viewport'
 import { isBrowser, isServer, scrollPosition, sendPageviewEvent } from './utils'
 
+/**
+ * The App orchestrator
+ *
+ * @class App
+ * @extends {React.Component}
+ */
 class App extends React.Component {
   constructor (props) {
     super(props)
@@ -24,6 +31,12 @@ class App extends React.Component {
 
     this.onRouteChange = this.onRouteChange.bind(this)
     this.scrollPositions = {}
+  }
+
+  // When the App will mount, install the viewport
+  // watcher to update the viewport breakpoint
+  componentWillMount () {
+    this.props.initViewport()
   }
 
   // This component should be never auto updated by React.
@@ -129,6 +142,7 @@ export default connect(
     layout: state.layout
   }),
   dispatch => ({
-    fetchContext: path => dispatch(fetchContext(path))
+    fetchContext: path => dispatch(fetchContext(path)),
+    initViewport: () => dispatch(initViewport())
   })
 )(App)

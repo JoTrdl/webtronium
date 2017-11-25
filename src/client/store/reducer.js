@@ -1,10 +1,12 @@
 import { combineReducers } from 'redux'
 
-// import modules and combine them here
-import context from './modules/context'
-import layout from './modules/layout'
+import * as packages from './modules/*.js'
 
-export default combineReducers({
-  context,
-  layout
+const reducers = {}
+
+Object.entries(packages).forEach(([name, reducer]) => {
+  const entry = name.split('$')[0]
+  reducers[entry] = reducer
 })
+
+export default combineReducers(reducers)

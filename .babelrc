@@ -10,6 +10,7 @@
         }]
       ],
       "plugins": [
+        "import-glob",
         "transform-react-jsx",
         "transform-object-rest-spread",
         "transform-class-properties",
@@ -27,6 +28,7 @@
         ["env", { "targets": { "node": "8"} }]
       ],
       "plugins": [
+        "import-glob",
         "transform-react-jsx",
         "transform-object-rest-spread",
         "transform-class-properties",
@@ -42,6 +44,7 @@
     "test": {
       "presets": ["env", "react"],
       "plugins": [
+        "import-glob",
         "transform-react-jsx",
         "transform-object-rest-spread",
         "transform-class-properties",

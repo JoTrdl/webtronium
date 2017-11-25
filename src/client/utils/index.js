@@ -2,12 +2,19 @@
 import queries from './queries'
 import request from './request'
 
+/**
+ * True if running on browser
+ */
 const isBrowser = typeof window !== 'undefined'
+
+/**
+ * True if running on server
+ */
 const isServer = !isBrowser
 
 /**
  * Call fn next tick in the calls stack
- * @param {*} fn
+ * @param {Function} fn - The function to call after a process tick
  */
 const nextTick = (fn) => {
   setTimeout(() => fn(), 0)
@@ -15,13 +22,16 @@ const nextTick = (fn) => {
 
 /**
  * More precise Time.now() if available
+ * @type {Function}
  */
 const Time = isBrowser && window.performance && window.performance.now
   ? window.performance
   : Date
 
 /**
- * Return the current scroll position
+ * Get/Set the window position
+ * @param {{x: number, y: number}} position
+ * @returns {null|{x: number, y: number}} The current scroll position if position specified
  */
 const scrollPosition = (position) => {
   if (typeof position !== 'undefined') {
@@ -45,6 +55,7 @@ const scrollPosition = (position) => {
 
 /**
  * Send a pageview analytics events.
+ * @param {string} path
  */
 const sendPageviewEvent = (path) => {
   if (window.ga) {

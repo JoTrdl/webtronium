@@ -34,7 +34,7 @@ function fetchRoute (path) {
       'X-Requested-With': 'ClientFetchRequest'
     },
     resolveErrors: [404, 500]
-  }).json
+  }).json()
 }
 
 // Reducer

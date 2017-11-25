@@ -53,9 +53,9 @@ const Scripts = scripts => (
 /**
  * HtmlDocument component
  *
- * @export
- * @param {any} { state, children }
- * @returns
+ * @export Function
+ * @param {{ state: Object, content: string, criticalCSS: string }} param - Document params
+ * @returns {string} The document rendered
  */
 export default function HtmlDocument ({ state, content, criticalCSS }) {
   // Add the main App css to the links if defined

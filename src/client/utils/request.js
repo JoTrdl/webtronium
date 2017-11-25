@@ -4,7 +4,7 @@ const DEFAULT_TIMEOUT = 10 * 1000 // 10 secs
 const resolvable = () => {
   let _resolve
   let _reject
-  let p = new Promise((resolve, reject) => (
+  const p = new Promise((resolve, reject) => (
     [_resolve, _reject] = [resolve, reject])
   )
   p.resolve = _resolve
@@ -12,7 +12,7 @@ const resolvable = () => {
   return p
 }
 
-function _request (url, method, data = {}, options) {
+function _request (url, method, data = {}, options = {}) {
   const headers = options.headers || {}
   if (data.json) {
     headers['Content-Type'] = 'application/json'
@@ -20,17 +20,13 @@ function _request (url, method, data = {}, options) {
 
   const response = resolvable()
   ;['json', 'text', 'blob'].forEach(way => {
-    Object.defineProperty(response, way, {
-      get: () => response.then((r) => r.clone()[way]()),
-      set: () => {
-        throw new Error('Cannot set read-only property.')
-      }
-    })
+    response[way] = () => response.then(r => r[way]())
   })
 
   const params = {
     credentials: 'include',
-    headers
+    headers,
+    method
   }
 
   if (data) {
@@ -53,7 +49,7 @@ function _request (url, method, data = {}, options) {
           const shouldResolve = resolveErrors.includes(resp.status)
           if (!shouldResolve) {
             const r = new Error(`Received an error status: ${resp.status}.`)
-            response.reject(r)
+            return response.reject(r)
           }
         }
 

@@ -8,7 +8,7 @@ import createStore from './store'
 /**
  * Bootstrap the React app.
  *
- * @param {} container
+ * @param {Function} container
  */
 const bootstrap = container => {
   const root = document.getElementById('root')

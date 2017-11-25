@@ -8,15 +8,22 @@ const queries = function (queries) {
   }
 
   return {
+    /**
+     * Format the queries to string
+     */
     toString: () => {
       if (queryString) {
         return queryString
       }
 
       return Object.entries(queryObject)
+        .filter(([q, v]) => q && v)
         .map(([q, v]) => `${q}=${v}`)
         .join('&')
     },
+    /**
+     * Format the queries to an object
+     */
     toObject: () => {
       if (queryObject) {
         return queryObject
@@ -25,7 +32,9 @@ const queries = function (queries) {
       return queryString.split('&')
         .reduce((acc, s) => {
           const [q, v] = s.split('=')
-          acc[q || ''] = v || ''
+          if (q) {
+            acc[q] = v || ''
+          }
           return acc
         }, {})
     }

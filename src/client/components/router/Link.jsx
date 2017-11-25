@@ -2,8 +2,9 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 /**
- * Supports:
+ * Router Link component
  *
+ * @example
  * <Link to="">
  * <Lint to="" active>
  * <Link to="" match>
@@ -11,12 +12,13 @@ import PropTypes from 'prop-types'
  * <Link to="" exact withQueries>
  * <Link to="" exact withQueries=['sort']>
  *
- * active: force the active state
- * activeClassName: active classname (default 'active')
- * match: match the current location with the to
- * exact: strictly compares the location and the to
- * withQueries: compare all queries too
- * withQueries(array): compare only the specified queries
+ * @class Link
+ * @extends {React.Component}
+ * @reactProps {boolean} active - Force the link active state
+ * @reactProps {string} activeClassName - The classname to use for 'active' state
+ * @reactProps {boolean} match - Compare the current URL with match()
+ * @reactProps {boolean} exact - Compare the current URL with equal (===)
+ * @reactProps {boolean|Array} withQueries - Include queries in the test comparaison
  */
 export default class Link extends React.Component {
   static contextTypes = {
@@ -24,12 +26,12 @@ export default class Link extends React.Component {
   }
 
   componentWillMount () {
-    this.unlisten = this.context.router.listen(() => this.forceUpdate())
+    this._unlisten = this.context.router.listen(() => this.forceUpdate())
   }
 
   componentWillUnmount () {
-    if (this.unlisten) {
-      this.unlisten()
+    if (this._unlisten) {
+      this._unlisten()
     }
   }
 

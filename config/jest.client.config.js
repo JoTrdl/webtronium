@@ -2,6 +2,7 @@ module.exports = {
   rootDir: '../',
   roots: ['<rootDir>/src/client'],
   verbose: true,
+  setupFiles: ['isomorphic-fetch'],
   moduleFileExtensions: ['js', 'jsx'],
   testPathIgnorePatterns: ['/node_modules/', '/dist/'],
   coverageDirectory: '<rootDir>/coverage/client',
